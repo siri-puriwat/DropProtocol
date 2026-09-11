@@ -1,0 +1,26 @@
+{
+    "name": "DropProtocol.Tests.PlayMode",
+    "rootNamespace": "DropProtocol.Tests.PlayMode",
+    "references": [
+        "DropProtocol",
+        "UnityEngine.TestRunner",
+        "Unity.Netcode.Runtime",
+        "Unity.Collections",
+        "Unity.AI.Navigation",
+        "Unity.TextMeshPro",
+        "Unity.Multiplayer.Tools.NetStatsMonitor.Component"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

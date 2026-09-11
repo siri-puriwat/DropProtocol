@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6b17bdf0bddf304498a1cd132389eca, type: 3}
+  m_Name: AssaultRifle
+  m_EditorClassIdentifier: DropProtocol::DropProtocol.WeaponDefinition
+  m_displayName: Assault Rifle
+  m_hitMode: 0
+  m_damage: 20
+  m_roundsPerSecond: 10
+  m_magazineSize: 30
+  m_reloadSeconds: 2
+  m_spreadDegrees: 3
+  m_range: 60
+  m_muzzleFlash: {fileID: 4366371338891736536, guid: 432587f9f4276e149af9221ac857376b, type: 3}
+  m_impactVfx: {fileID: 2874649749807420349, guid: da4b3b216289a084b9990af6213682ad, type: 3}
+  m_fireClip: {fileID: 8300000, guid: 7f15b1eb546e44342a49d77ce77e2df3, type: 3}
+  m_reloadClip: {fileID: 8300000, guid: 7d88a7b24a3356940b9ae3620c3c503f, type: 3}
