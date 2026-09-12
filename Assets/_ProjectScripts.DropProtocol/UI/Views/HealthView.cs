@@ -1,13 +1,12 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace DropProtocol
 {
 public sealed class HealthView : HudView
 {
     [SerializeField]
-    private Image m_fill;
+    private FillBar m_fill;
 
     [SerializeField]
     private TMP_Text m_label;
@@ -24,6 +23,8 @@ public sealed class HealthView : HudView
     private Health m_health;
 
     public string Label => m_label != null ? m_label.text : string.Empty;
+
+    public float Fraction => m_fill != null ? m_fill.Fraction : 0f;
 
     protected override void OnBind(NetworkPlayer player)
     {
@@ -57,8 +58,8 @@ public sealed class HealthView : HudView
         float fraction = HudFormat.HealthFraction(current, m_health.Max);
         if (m_fill != null)
         {
-            m_fill.fillAmount = fraction;
-            m_fill.color = current <= 0 ? m_downedColor : Color.Lerp(m_emptyColor, m_fullColor, fraction);
+            m_fill.SetFraction(fraction);
+            m_fill.SetColor(current <= 0 ? m_downedColor : Color.Lerp(m_emptyColor, m_fullColor, fraction));
         }
 
         if (m_label != null)

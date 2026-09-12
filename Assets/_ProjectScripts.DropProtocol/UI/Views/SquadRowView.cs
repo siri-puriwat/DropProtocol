@@ -13,7 +13,7 @@ public sealed class SquadRowView : MonoBehaviour
     private TMP_Text m_name;
 
     [SerializeField]
-    private Image m_fill;
+    private FillBar m_fill;
 
     [SerializeField]
     private Color m_fullColor = new(0.35f, 0.9f, 0.45f);
@@ -46,8 +46,8 @@ public sealed class SquadRowView : MonoBehaviour
         var health = player.Health;
         if (m_fill != null && health != null)
         {
-            m_fill.fillAmount = HudFormat.HealthFraction(health.Current.Value, health.Max);
-            m_fill.color = health.IsDowned ? m_downedColor : m_fullColor;
+            m_fill.SetFraction(HudFormat.HealthFraction(health.Current.Value, health.Max));
+            m_fill.SetColor(health.IsDowned ? m_downedColor : m_fullColor);
         }
     }
 }

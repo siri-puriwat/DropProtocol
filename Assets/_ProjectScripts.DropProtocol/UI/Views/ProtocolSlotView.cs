@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace DropProtocol
 {
@@ -17,7 +16,7 @@ public sealed class ProtocolSlotView : MonoBehaviour
     private TMP_Text m_cooldown;
 
     [SerializeField]
-    private Image m_cooldownFill;
+    private FillBar m_cooldownFill;
 
     [SerializeField]
     private Color m_readyColor = Color.white;
@@ -56,7 +55,7 @@ public sealed class ProtocolSlotView : MonoBehaviour
         if (m_cooldownFill != null)
         {
             float total = Mathf.Max(0.01f, definition.CooldownSeconds);
-            m_cooldownFill.fillAmount = ready ? 0f : Mathf.Clamp01(remaining / total);
+            m_cooldownFill.SetFraction(ready ? 0f : remaining / total);
         }
     }
 }

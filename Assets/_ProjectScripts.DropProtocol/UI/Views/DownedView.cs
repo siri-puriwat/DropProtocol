@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace DropProtocol
 {
@@ -18,7 +17,7 @@ public sealed class DownedView : HudView
     private TMP_Text m_label;
 
     [SerializeField]
-    private Image m_progress;
+    private FillBar m_progress;
 
     private Health m_health;
     private ReviveController m_reviver;
@@ -100,7 +99,7 @@ public sealed class DownedView : HudView
     {
         if (m_progress != null)
         {
-            m_progress.fillAmount = Mathf.Clamp01(value);
+            m_progress.SetFraction(value);
         }
     }
 }

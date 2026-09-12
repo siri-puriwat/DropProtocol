@@ -53,6 +53,7 @@ namespace DropProtocol.Tests.PlayMode
 
             var health = Object.FindFirstObjectByType<HealthView>(FindObjectsInactive.Include);
             Assert.That(health.Label, Is.EqualTo("100 / 100"));
+            Assert.That(health.Fraction, Is.EqualTo(1f));
 
             var ammo = Object.FindFirstObjectByType<AmmoView>(FindObjectsInactive.Include);
             Assert.That(ammo.Label, Is.EqualTo("30 / 30"));
@@ -80,6 +81,7 @@ namespace DropProtocol.Tests.PlayMode
             yield return null;
             Assert.That(downed.IsShown, Is.True);
             Assert.That(health.Label, Is.EqualTo("0 / 100"));
+            Assert.That(health.Fraction, Is.EqualTo(0f));
         }
 
         [UnityTest]
