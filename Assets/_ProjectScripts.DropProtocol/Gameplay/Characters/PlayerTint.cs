@@ -4,9 +4,10 @@ using UnityEngine;
 namespace DropProtocol
 {
 /// <summary>
-///     Presentation: colours a marker under the character by squad slot so players can tell each other
-///     apart from the top-down view. Reads replicated state (<see cref="NetworkPlayer.PlayerIndex" />)
-///     and never influences gameplay.
+///     Presentation: colours a marker under the character and skins the body by squad slot so players can
+///     tell each other apart from the top-down view. The body takes a per-slot material rather than a
+///     property block because the hit flash clears property blocks on every renderer under the visual.
+///     Reads replicated state (<see cref="NetworkPlayer.PlayerIndex" />) and never influences gameplay.
 /// </summary>
 [RequireComponent(typeof(NetworkPlayer))]
 public sealed class PlayerTint : NetworkBehaviour
@@ -28,6 +29,13 @@ public sealed class PlayerTint : NetworkBehaviour
 
     [SerializeField]
     private Color m_unassignedColor = new(0.6f, 0.6f, 0.6f);
+
+    [Tooltip("One skin material per squad slot, indexed by PlayerIndex; empty keeps the model material.")]
+    [SerializeField]
+    private Material[] m_slotMaterials = System.Array.Empty<Material>();
+
+    [SerializeField]
+    private Renderer[] m_body = System.Array.Empty<Renderer>();
 
     private NetworkPlayer m_player;
     private MaterialPropertyBlock m_block;
@@ -65,6 +73,19 @@ public sealed class PlayerTint : NetworkBehaviour
     {
         var color = slot >= 0 && slot < m_slotColors.Length ? m_slotColors[slot] : m_unassignedColor;
         CurrentColor = color;
+
+        var skin = m_slotMaterials != null && slot >= 0 && slot < m_slotMaterials.Length ? m_slotMaterials[slot] : null;
+        if (skin != null && m_body != null)
+        {
+            foreach (var renderer in m_body)
+            {
+                if (renderer != null)
+                {
+                    renderer.sharedMaterial = skin;
+                }
+            }
+        }
+
         if (m_marker == null)
         {
             return;
