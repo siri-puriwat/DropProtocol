@@ -39,6 +39,7 @@ namespace DropProtocol.Tests.PlayMode
         {
             SceneManager.LoadScene(MissionScene);
             yield return null;
+            Assert.That(Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None).Length, Is.EqualTo(1), "exactly one audio listener");
 
             HudController hud = Object.FindFirstObjectByType<HudController>(FindObjectsInactive.Include);
             Assert.That(hud, Is.Not.Null, "mission scene should carry the Hud prefab");
@@ -46,6 +47,7 @@ namespace DropProtocol.Tests.PlayMode
             Assert.That(session, Is.Not.Null, "session panel should have created the NetworkRoot");
             Assert.That(session.StartHost(), Is.True);
             yield return HostTestHarness.Wait(1f);
+            Assert.That(Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None).Length, Is.EqualTo(1), "exactly one audio listener");
 
             Assert.That(hud.LocalPlayer, Is.SameAs(NetworkPlayer.LocalPlayer));
 
@@ -85,9 +87,11 @@ namespace DropProtocol.Tests.PlayMode
         {
             SceneManager.LoadScene(MissionScene);
             yield return null;
+            Assert.That(Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None).Length, Is.EqualTo(1), "exactly one audio listener");
             NetworkSession session = NetworkSession.Instance;
             Assert.That(session.StartHost(), Is.True);
             yield return HostTestHarness.Wait(0.5f);
+            Assert.That(Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None).Length, Is.EqualTo(1), "exactly one audio listener");
 
             var overlay = Object.FindFirstObjectByType<NetworkDebugOverlay>(FindObjectsInactive.Include);
             Assert.That(overlay.IsShown, Is.False);

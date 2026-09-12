@@ -40,11 +40,13 @@ namespace DropProtocol.Tests.PlayMode
         {
             SceneManager.LoadScene(MissionScene);
             yield return null;
+            Assert.That(Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None).Length, Is.EqualTo(1), "exactly one audio listener");
 
             NetworkSession session = NetworkSession.Instance;
             Assert.That(session, Is.Not.Null, "mission panel should have created the NetworkRoot");
             Assert.That(session.StartHost(), Is.True);
             yield return HostTestHarness.Wait(0.5f);
+            Assert.That(Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None).Length, Is.EqualTo(1), "exactly one audio listener");
 
             Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo(MissionScene), "hosting from the scene must keep it");
             Assert.That(NetworkPlayer.LocalPlayer, Is.Not.Null);
