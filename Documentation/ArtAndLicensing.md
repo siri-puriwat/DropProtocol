@@ -49,6 +49,19 @@ Enemies are blocky characters too: Grunt `character-c` (0.6, red skin), Spitter 
 (0.55, green), Brute `character-p` (0.9, purple). The letters are interchangeable; the tinted skin
 materials in `Art/Materials/` are what keep them readable as enemies from the top-down camera.
 
+## Weapons and props
+
+Guns and props are a subset of Kenney's Blaster Kit under `Assets/Kenney/BlasterKit/`, imported
+with no materials (`materialImportMode` None) and one shared URP Lit material on the kit atlas. The
+player rifle is `blaster-f` on a `GunAnchor` under `Visual/root/torso/arm-right`; the blocky rig has
+no hand bone, so the anchor is placed by eye in the aim pose. The anchor is presentation only: the
+hitscan still starts 0.9 m above the root (`WeaponController` muzzle), and each peer draws its
+tracer and flash from its own barrel tip (`HitscanTracer`, `CharacterPresentation`) because the
+server samples the muzzle on a culled animator. The sentry carries `blaster-e`, the strike beacon
+`grenade-b`, the supply pod the animated `crate-medium` (lid opens on arrival) and the target
+dummy a `target-large` plate. Squad slots are told apart by four skin materials on the player body,
+the same pattern as the enemy skins; the marker keeps its property block.
+
 ## Effects and audio
 
 Particle prefabs live in `Prefabs/Vfx/` on one additive material; every burst is under fifty
