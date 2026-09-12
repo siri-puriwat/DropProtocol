@@ -123,7 +123,7 @@ No other undocumented setup steps are required.
 | `00_Bootstrap` | Application entry point; persistent networking root, then loads the menu |
 | `01_MainMenu` | Host a session or join one by IP address |
 | `10_Mission_Test` | The playable mission: deploy, activate three communication relays, extract; bots fill the empty squad slots. Hosted from the menu, or directly from the HUD's session card |
-| `90_Sandbox` | Developer playground — movement, weapons, enemies, bots without the menu flow; hosts from the HUD's session card, has target dummies, and the F1 debug panel (host only) offers debug damage/revive, enemy director controls and a bot fill toggle (both off by default) |
+| `90_Sandbox` | Developer playground — movement, weapons, enemies, bots without the menu flow; hosts from the HUD's session card, has target dummies, and the F1 debug panel (host only) offers debug damage/revive, enemy director controls, a bot fill toggle (both off by default) and a weapon cycle (assault rifle, shotgun, machine gun) |
 
 ## Testing multiplayer locally
 

@@ -161,8 +161,13 @@ from the command the character applied (see Mission).
 ## Combat (Milestone 3)
 
 Weapons are data, not code branches. `WeaponDefinition` ScriptableObjects carry damage, fire rate,
-magazine size, reload duration, spread, range, and a hit mode. Weapon-specific `if` branches are a
-bug, not a shortcut.
+magazine size, reload duration, spread, range, a pellet count and a hit mode. Weapon-specific `if`
+branches are a bug, not a shortcut. Three definitions exist (assault rifle, shotgun, machine gun);
+the shotgun is the rifle's code path with eight pellets, each carrying the full damage and its own
+spread sample, so a spread shot needs no shotgun branch. The player prefab lists the two extras in
+an arsenal and `WeaponController.Equip` switches by index on the host, replicating the index so every
+peer resolves the same definition for its flash, sound and HUD name; the F1 debug panel cycles it.
+Player-facing weapon switching (a slot in `PlayerCommand`) is still to come.
 
 ### Definition vs. state
 
@@ -538,8 +543,11 @@ despawning owner. Indicators keep two kinds of audio apart: state (loops, colour
 idempotent `Apply()` also called on network spawn, edges (one-shots, bursts) only fire from
 `OnValueChanged` on a real transition, and the first observation seeds the cached value silently so
 a late joiner never hears a replay. The `AudioListener` follows the local player's position from a
-child of the camera (`AudioListenerFollow`) and never its yaw. Pooling of VFX was rejected: the
-rifle at ten shots a second is the peak rate.
+child of the camera (`AudioListenerFollow`) and never its yaw. `Vfx.Spawn` pools per prefab: an
+instance parks itself through the particle system's Callback stop action (`PooledVfx`) and the next
+spawn of that prefab reuses it, so a squad on full auto stops instantiating and destroying a flash and
+an impact per round. Pooling had been rejected while one rifle was the peak rate; a shotgun's eight
+tracers per shot and a second squad weapon changed that.
 
 ## UI (Milestone 8)
 
