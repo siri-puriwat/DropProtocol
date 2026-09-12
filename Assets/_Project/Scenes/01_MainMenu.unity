@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 125421027}
   - component: {fileID: 125421026}
   - component: {fileID: 125421028}
+  - component: {fileID: 125421029}
   m_Layer: 5
   m_Name: HostButton
   m_TagString: Untagged
@@ -240,6 +241,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &125421029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125421024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3822acefdcda56448b17ad33846238e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DropProtocol::DropProtocol.ButtonSfx
+  m_sfx: {fileID: 1400875152}
+  m_hoverClip: {fileID: 8300000, guid: b814c1cede98520468b6a15e5537e781, type: 3}
+  m_clickClip: {fileID: 8300000, guid: f305eaeddf52d9342a9c6d346000fc4c, type: 3}
 --- !u!1 &278508911
 GameObject:
   m_ObjectHideFlags: 0
@@ -896,6 +912,7 @@ GameObject:
   - component: {fileID: 656547627}
   - component: {fileID: 656547626}
   - component: {fileID: 656547628}
+  - component: {fileID: 656547629}
   m_Layer: 5
   m_Name: JoinButton
   m_TagString: Untagged
@@ -1005,6 +1022,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &656547629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656547624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3822acefdcda56448b17ad33846238e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DropProtocol::DropProtocol.ButtonSfx
+  m_sfx: {fileID: 1400875152}
+  m_hoverClip: {fileID: 8300000, guid: b814c1cede98520468b6a15e5537e781, type: 3}
+  m_clickClip: {fileID: 8300000, guid: f305eaeddf52d9342a9c6d346000fc4c, type: 3}
 --- !u!1 &714939261
 GameObject:
   m_ObjectHideFlags: 0
@@ -1443,6 +1475,8 @@ MonoBehaviour:
   m_addressInput: {fileID: 493984349}
   m_statusText: {fileID: 522864108}
   m_versionLabel: {fileID: 1670270186}
+  m_sfx: {fileID: 1400875152}
+  m_errorClip: {fileID: 8300000, guid: e753f0d92601aba4db84a53cf531dbb4, type: 3}
 --- !u!114 &1400875148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2092,6 +2126,152 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1785334419}
   m_CullTransparentMesh: 1
+--- !u!1 &1817468786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1817468789}
+  - component: {fileID: 1817468788}
+  - component: {fileID: 1817468787}
+  m_Layer: 0
+  m_Name: Ambience
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1817468787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817468786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c69622803de2fcb46a863b050eac1021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DropProtocol::DropProtocol.LoopFader
+  m_source: {fileID: 1817468788}
+  m_fadeSeconds: 1.5
+  m_volume: 0.15
+  m_playOnStart: 1
+--- !u!82 &1817468788
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817468786}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 1367786633818634709, guid: d585b8004b1b82843a2167fef6280c86, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: b6eda57a42c2eba4f996f51c1f543f29, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 64
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &1817468789
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817468786}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1870038294
 GameObject:
   m_ObjectHideFlags: 0
@@ -2316,6 +2496,7 @@ GameObject:
   - component: {fileID: 2064840735}
   - component: {fileID: 2064840734}
   - component: {fileID: 2064840736}
+  - component: {fileID: 2064840737}
   m_Layer: 5
   m_Name: SandboxButton
   m_TagString: Untagged
@@ -2425,6 +2606,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2064840737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064840732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3822acefdcda56448b17ad33846238e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DropProtocol::DropProtocol.ButtonSfx
+  m_sfx: {fileID: 1400875152}
+  m_hoverClip: {fileID: 8300000, guid: b814c1cede98520468b6a15e5537e781, type: 3}
+  m_clickClip: {fileID: 8300000, guid: f305eaeddf52d9342a9c6d346000fc4c, type: 3}
 --- !u!1 &2082959599
 GameObject:
   m_ObjectHideFlags: 0
@@ -2570,3 +2766,4 @@ SceneRoots:
   - {fileID: 854771092}
   - {fileID: 1400875151}
   - {fileID: 538108369}
+  - {fileID: 1817468789}

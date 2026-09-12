@@ -303,6 +303,11 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
+  BotFlag:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!114 &2678675935919970939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c9f9676e927734ea731abe224db619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: DropProtocol::DropProtocol.PlayerTint
+  ShowTopMostFoldoutHeaderGroup: 1
   m_marker: {fileID: 8410308449490295521}
   m_slotColors:
   - {r: 0.25, g: 0.65, b: 1, a: 1}
@@ -459,6 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5376e944ee3d6714a9b3e66b4b309563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: DropProtocol::DropProtocol.CharacterPresentation
+  ShowTopMostFoldoutHeaderGroup: 1
   m_animator: {fileID: 1346686923367138163}
   m_visual: {fileID: 788529711012286472}
   m_deadzone: 0.05
@@ -466,9 +473,35 @@ MonoBehaviour:
   m_hitFlashSeconds: 0.1
   m_hitColor: {r: 1, g: 0.35, b: 0.35, a: 1}
   m_reviveVfx: {fileID: 3135123737762117035, guid: 1ed658a259bab49428ca709f731740fd, type: 3}
-  m_hurtClip: {fileID: 8300000, guid: c9407470a2f95e1469d35cb9b0334603, type: 3}
-  m_downedClip: {fileID: 8300000, guid: d4b52a2e53bc33e4eb0083410fd96843, type: 3}
-  m_reviveClip: {fileID: 8300000, guid: cdf05bfa99038f343b17450f7ba930dd, type: 3}
+  m_hurtCue:
+    Clips:
+    - {fileID: 8300000, guid: c9407470a2f95e1469d35cb9b0334603, type: 3}
+    - {fileID: 8300000, guid: 8ec86059424dcc345897320503ac2b22, type: 3}
+    - {fileID: 8300000, guid: 298b43ad3e057934295f81e5a035c82c, type: 3}
+    - {fileID: 8300000, guid: 3917df86d3ed74e4ba96e95e2e53c8f9, type: 3}
+    - {fileID: 8300000, guid: 990df5e6ea3c2dd438b7b055daf51adf, type: 3}
+    Volume: 1
+    PitchRange: {x: 0.95, y: 1.05}
+  m_downedCue:
+    Clips:
+    - {fileID: 8300000, guid: 69e245eb1718c6441a4001b75d25cc17, type: 3}
+    Volume: 1
+    PitchRange: {x: 1, y: 1}
+  m_reviveCue:
+    Clips:
+    - {fileID: 8300000, guid: b899cc726249597448976ce896b20130, type: 3}
+    Volume: 1
+    PitchRange: {x: 1, y: 1}
+  m_footstepCue:
+    Clips:
+    - {fileID: 8300000, guid: 2e7ae5cfeae8aed438ce863266309920, type: 3}
+    - {fileID: 8300000, guid: 912bf90722f6c6b409856a99b9196d33, type: 3}
+    - {fileID: 8300000, guid: e0f8756ea73e7734a8957dc4500a302f, type: 3}
+    - {fileID: 8300000, guid: 2cff0fd492ac8724bb81fabd7c61ef22, type: 3}
+    - {fileID: 8300000, guid: f34a1f33c04b01b4aa1a6ff586ffe163, type: 3}
+    Volume: 0.35
+    PitchRange: {x: 0.95, y: 1.05}
+  m_strideMetres: 1.6
 --- !u!1 &7760679745829970479
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,6 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff4e909085dfc947b8617cb38033e13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: DropProtocol::DropProtocol.HealthBar
+  ShowTopMostFoldoutHeaderGroup: 1
   m_health: {fileID: 5138427301076910810}
   m_fill: {fileID: 4375050808790550397}
   m_fillRenderer: {fileID: 896281807460815250}

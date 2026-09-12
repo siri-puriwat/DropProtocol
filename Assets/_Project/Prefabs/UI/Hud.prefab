@@ -93,6 +93,8 @@ MonoBehaviour:
   m_fadeSeconds: 0.5
   m_impulse: {fileID: 2885350218409049930}
   m_impulsePerDamage: 0.02
+  m_sfx: {fileID: 8344868501638720100}
+  m_downedClip: {fileID: 8300000, guid: f335dc212182bbc458a434fcac779069, type: 3}
 --- !u!1 &131702571037576117
 GameObject:
   m_ObjectHideFlags: 0
@@ -1280,6 +1282,7 @@ GameObject:
   - component: {fileID: 4862272275067517297}
   - component: {fileID: 316127119688247793}
   - component: {fileID: 5881533475211748987}
+  - component: {fileID: 4863255018152394040}
   m_Layer: 5
   m_Name: HostButton
   m_TagString: Untagged
@@ -1389,6 +1392,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4863255018152394040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944464734223771606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3822acefdcda56448b17ad33846238e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DropProtocol::DropProtocol.ButtonSfx
+  m_sfx: {fileID: 8344868501638720100}
+  m_hoverClip: {fileID: 8300000, guid: b814c1cede98520468b6a15e5537e781, type: 3}
+  m_clickClip: {fileID: 8300000, guid: f305eaeddf52d9342a9c6d346000fc4c, type: 3}
 --- !u!1 &1001239825505657515
 GameObject:
   m_ObjectHideFlags: 0
@@ -2122,6 +2140,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: DropProtocol::DropProtocol.AmmoView
   m_label: {fileID: 1670909090824306608}
   m_weaponName: {fileID: 5159980104183859153}
+  m_sfx: {fileID: 8344868501638720100}
+  m_hitClip: {fileID: 8300000, guid: caeaac2d4d9f7aa4d976bc7fcca2d0cb, type: 3}
+  m_emptyClip: {fileID: 8300000, guid: 929a355903cd7c14ca1be8a035416b35, type: 3}
+  m_lowAmmoClip: {fileID: 8300000, guid: 6178f72719cb9e8499f4f030147cfc29, type: 3}
+  m_lowAmmoThreshold: 5
 --- !u!1 &1620253042977198690
 GameObject:
   m_ObjectHideFlags: 0
@@ -4516,6 +4539,7 @@ GameObject:
   - component: {fileID: 787960762223919084}
   - component: {fileID: 1134655567888268448}
   - component: {fileID: 4848576562496352043}
+  - component: {fileID: 2907010208895759648}
   m_Layer: 5
   m_Name: JoinButton
   m_TagString: Untagged
@@ -4625,6 +4649,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2907010208895759648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3643709672148912579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3822acefdcda56448b17ad33846238e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DropProtocol::DropProtocol.ButtonSfx
+  m_sfx: {fileID: 8344868501638720100}
+  m_hoverClip: {fileID: 8300000, guid: b814c1cede98520468b6a15e5537e781, type: 3}
+  m_clickClip: {fileID: 8300000, guid: f305eaeddf52d9342a9c6d346000fc4c, type: 3}
 --- !u!1 &3886972192502945461
 GameObject:
   m_ObjectHideFlags: 0
@@ -5175,6 +5214,11 @@ MonoBehaviour:
   m_objective: {fileID: 3827531802247128461}
   m_clock: {fileID: 3106423082265836281}
   m_kills: {fileID: 6847041026742946196}
+  m_sfx: {fileID: 8344868501638720100}
+  m_deployClip: {fileID: 8300000, guid: f197ed83042d0874094440c13f0beb28, type: 3}
+  m_extractionClip: {fileID: 8300000, guid: 2d66ca465d26135499585565ee8729ca, type: 3}
+  m_extractionStinger: {fileID: 8300000, guid: cdda261dee2edf0448ef40de3fa4cce1, type: 3}
+  m_relayStinger: {fileID: 8300000, guid: 4d4f5f3b8aca1254b86265fd6d616c86, type: 3}
 --- !u!1 &4315055296340565752
 GameObject:
   m_ObjectHideFlags: 0
@@ -5504,8 +5548,8 @@ MonoBehaviour:
   m_button: {fileID: 2387007629789693556}
   m_buttonLabel: {fileID: 7905918822764570185}
   m_sfx: {fileID: 8344868501638720100}
-  m_completeClip: {fileID: 8300000, guid: b1c08412427412f4d9ddfcb444c35a0d, type: 3}
-  m_failedClip: {fileID: 8300000, guid: 637d6b92e3b3f6c47bb9ca0f618984e5, type: 3}
+  m_completeClip: {fileID: 8300000, guid: 214a5382d1162024c90c6b8b2f258844, type: 3}
+  m_failedClip: {fileID: 8300000, guid: f0fcdf092a6d28041b96669489112dfe, type: 3}
 --- !u!1 &5065446944854878986
 GameObject:
   m_ObjectHideFlags: 0
@@ -9202,8 +9246,8 @@ MonoBehaviour:
   - {fileID: 1507955658284208208}
   - {fileID: 3357445153257688501}
   m_highlightHex: '#FFD84A'
-  m_keyClip: {fileID: 8300000, guid: fc22c99b9687eec49b8adced36fa15c4, type: 3}
-  m_rejectClip: {fileID: 8300000, guid: ac2694d3c8bd01042ac276c146691ca1, type: 3}
+  m_keyClip: {fileID: 8300000, guid: ceb73e3920e4bf643bbfdee7c83fabf4, type: 3}
+  m_rejectClip: {fileID: 8300000, guid: 62cd4432045ac70478ef8ec07b50209c, type: 3}
   m_sfx: {fileID: 8344868501638720100}
 --- !u!1 &7109813446599269997
 GameObject:
