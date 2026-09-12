@@ -52,17 +52,22 @@ materials in `Art/Materials/` are what keep them readable as enemies from the to
 ## Effects and audio
 
 Particle prefabs live in `Prefabs/Vfx/` on one additive material; every burst is under fifty
-particles and destroys itself. Sounds are a CC0 subset of Kenney's Sci-Fi, Impact and Interface
-packs under `Assets/Kenney/<Pack>/`, routed through `Audio/DropProtocol.mixer`
-(Master → SFX, UI). Which clip plays is data on the weapon, enemy and protocol definitions.
+particles and destroys itself. Sounds are CC0 subsets of Kenney's Sci-Fi Sounds, Impact Sounds,
+Interface Sounds and Music Jingles packs, flat under `Assets/Kenney/<Pack>/` with the Kenney file
+names untouched, routed through `Audio/DropProtocol.mixer` (Master → SFX, UI, Music, Ambience).
+Which clips play is data: an `SfxCue` (clip set, volume, pitch range) on the weapon, enemy and
+protocol definitions and on the payload indicators. Music Jingles are short stingers only; there is
+no music loop in any pack, so the mission has stingers and ambience beds, not music. Loop beds
+import as compressed-in-memory; everything else keeps the default import settings.
 
 ## Asset pipeline
 
 - Project-owned content lives under `Assets/_Project/`.
 - Imported CC0 Kenney content lives under `Assets/Kenney/` — no `ThirdParty` wrapper folder.
-  Each pack gets its own folder, `Assets/Kenney/<Pack>/`, holding `Models/`, `Textures/`, and the
-  pack's `License.txt`. Import the FBX flavour only; GLB/OBJ duplicates stay out of the repository.
-  Raw downloaded zips sit in the gitignored `Private/ExternalAssets/` folder.
+  Each pack gets its own folder, `Assets/Kenney/<Pack>/`. Model packs hold `Models/`, `Textures/`
+  and the pack's `License.txt`; sound packs are flat (`.ogg` beside `License.txt`). Import the FBX
+  flavour only, and only the pieces the game uses; GLB/OBJ duplicates and unused pieces stay out
+  of the repository. Raw downloaded zips sit in the gitignored `Private/ExternalAssets/` folder.
 - Large binaries (`.fbx .blend .png .tga .psd .wav .ogg`) are tracked with Git LFS. Judge each type
   by size and change frequency rather than pushing every binary into LFS reflexively.
 
