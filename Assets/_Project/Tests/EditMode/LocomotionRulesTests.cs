@@ -97,5 +97,43 @@ namespace DropProtocol.Tests.EditMode
 
             Assert.That(value.y, Is.LessThanOrEqualTo(1f));
         }
+
+        [Test]
+        public void Stride_StepsOncePerStrideAtWalkingSpeed()
+        {
+            float accumulated = 0f;
+            int steps = 0;
+            for (int i = 0; i < 100; i++)
+            {
+                if (LocomotionRules.Stride(ref accumulated, Vector2.up, 5f, 0.02f, 1.6f))
+                    steps++;
+            }
+
+            // 100 frames at 5 m/s and 20 ms = 10 m travelled = 6 full strides of 1.6 m.
+            Assert.That(steps, Is.EqualTo(6));
+        }
+
+        [Test]
+        public void Stride_HitchFrame_LandsAtMostOneStep()
+        {
+            float accumulated = 0f;
+            Assert.That(LocomotionRules.Stride(ref accumulated, Vector2.up, 5f, 5f, 1.6f), Is.True);
+            Assert.That(accumulated, Is.EqualTo(0f).Within(0.0001f));
+            Assert.That(LocomotionRules.Stride(ref accumulated, Vector2.up, 5f, 0.02f, 1.6f), Is.False);
+        }
+
+        [Test]
+        public void Stride_IdleOrInvalid_ResetsAndNeverSteps()
+        {
+            float accumulated = 1.5f;
+            Assert.That(LocomotionRules.Stride(ref accumulated, Vector2.zero, 5f, 0.02f, 1.6f), Is.False);
+            Assert.That(accumulated, Is.EqualTo(0f));
+            accumulated = 1.5f;
+            Assert.That(LocomotionRules.Stride(ref accumulated, Vector2.up, 5f, 0.02f, 0f), Is.False);
+            Assert.That(accumulated, Is.EqualTo(0f));
+            accumulated = 1.5f;
+            Assert.That(LocomotionRules.Stride(ref accumulated, Vector2.up, 0f, 0.02f, 1.6f), Is.False);
+            Assert.That(accumulated, Is.EqualTo(0f));
+        }
     }
 }

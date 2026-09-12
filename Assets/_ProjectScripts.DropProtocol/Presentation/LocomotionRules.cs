@@ -8,6 +8,8 @@ namespace DropProtocol
 /// </summary>
 public static class LocomotionRules
 {
+    private const float StepThreshold = 0.1f;
+
     public static Vector2 WorldVelocity(Vector3 previous, Vector3 current, float deltaTime)
     {
         if (deltaTime <= 0f)
@@ -45,6 +47,30 @@ public static class LocomotionRules
     {
         float t = 1f - Mathf.Exp(-sharpness * deltaTime);
         return Vector2.Lerp(current, target, t);
+    }
+
+    /// <summary>
+    ///     Advances a footstep accumulator from the blend input rather than raw position deltas, so a spawn
+    ///     snap or a network catch-up never fires a burst of steps: one frame adds at most one stride.
+    ///     Returns true when a step lands.
+    /// </summary>
+    public static bool Stride(ref float accumulated, Vector2 move, float moveSpeed, float deltaTime, float strideMetres)
+    {
+        float magnitude = Mathf.Clamp01(move.magnitude);
+        if (strideMetres <= 0f || moveSpeed <= 0f || deltaTime <= 0f || magnitude < StepThreshold)
+        {
+            accumulated = 0f;
+            return false;
+        }
+
+        accumulated += Mathf.Min(magnitude * moveSpeed * deltaTime, strideMetres);
+        if (accumulated < strideMetres)
+        {
+            return false;
+        }
+
+        accumulated -= strideMetres;
+        return true;
     }
 }
 }

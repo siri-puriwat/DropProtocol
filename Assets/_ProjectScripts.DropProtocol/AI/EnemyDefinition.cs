@@ -66,13 +66,20 @@ public sealed class EnemyDefinition : ScriptableObject
     private GameObject m_deathVfx;
 
     [SerializeField]
-    private AudioClip m_attackClip;
+    private SfxCue m_attackCue = SfxCue.Default;
 
     [SerializeField]
-    private AudioClip m_hurtClip;
+    private SfxCue m_hurtCue = SfxCue.Default;
 
     [SerializeField]
-    private AudioClip m_deathClip;
+    private SfxCue m_deathCue = SfxCue.Default;
+
+    [SerializeField]
+    private SfxCue m_footstepCue = SfxCue.Default;
+
+    [SerializeField]
+    [Min(0.2f)]
+    private float m_strideMetres = 1.4f;
 
     public string DisplayName => m_displayName;
     public int MaxHealth => m_maxHealth;
@@ -88,9 +95,11 @@ public sealed class EnemyDefinition : ScriptableObject
     public float AttackWindupSeconds => m_attackWindupSeconds;
     public GameObject HitVfx => m_hitVfx;
     public GameObject DeathVfx => m_deathVfx;
-    public AudioClip AttackClip => m_attackClip;
-    public AudioClip HurtClip => m_hurtClip;
-    public AudioClip DeathClip => m_deathClip;
+    public SfxCue AttackCue => m_attackCue;
+    public SfxCue HurtCue => m_hurtCue;
+    public SfxCue DeathCue => m_deathCue;
+    public SfxCue FootstepCue => m_footstepCue;
+    public float StrideMetres => m_strideMetres;
 
     public static EnemyDefinition Create(int maxHealth, int threatCost, float moveSpeed, float agentRadius,
         int attackDamage, float attackRange, float preferredRange, float minRange,

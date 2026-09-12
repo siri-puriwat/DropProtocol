@@ -60,6 +60,7 @@ public sealed class EnemyPresentation : NetworkBehaviour
     private RendererTint m_tint;
     private float m_flashUntil;
     private bool m_flashing;
+    private float m_stride;
 
     public EnemyState ShownState { get; private set; }
     public bool IsTelegraphing => EnemyPresentationRules.IsTelegraphing(ShownState);
@@ -112,6 +113,13 @@ public sealed class EnemyPresentation : NetworkBehaviour
             m_animator.SetFloat(SpeedId, move.magnitude);
         }
 
+        var definition = m_enemy.Definition;
+        if (definition != null && ShownState != EnemyState.Dead
+            && LocomotionRules.Stride(ref m_stride, move, moveSpeed, Time.deltaTime, definition.StrideMetres))
+        {
+            SfxPlayer.Play(definition.FootstepCue, transform.position);
+        }
+
         if (m_flashing && Time.time >= m_flashUntil)
         {
             m_flashing = false;
@@ -139,13 +147,19 @@ public sealed class EnemyPresentation : NetworkBehaviour
             m_flashing = true;
             RefreshTint();
             Vfx.Spawn(definition != null ? definition.HitVfx : null, chest, Vector3.up);
-            SfxPlayer.Play(definition != null ? definition.HurtClip : null, chest);
+            if (definition != null)
+            {
+                SfxPlayer.Play(definition.HurtCue, chest);
+            }
         }
         else
         {
             // Spawned unparented so it outlives the despawn that follows.
             Vfx.Spawn(definition != null ? definition.DeathVfx : null, chest, Vector3.up);
-            SfxPlayer.Play(definition != null ? definition.DeathClip : null, chest);
+            if (definition != null)
+            {
+                SfxPlayer.Play(definition.DeathCue, chest);
+            }
         }
     }
 
@@ -164,7 +178,7 @@ public sealed class EnemyPresentation : NetworkBehaviour
 
         if (state == EnemyState.Attack && triggerAttack && m_enemy.Definition != null)
         {
-            SfxPlayer.Play(m_enemy.Definition.AttackClip, transform.position + Vector3.up * ChestHeight);
+            SfxPlayer.Play(m_enemy.Definition.AttackCue, transform.position + Vector3.up * ChestHeight);
         }
 
         RefreshTint();

@@ -16,4 +16,8 @@ MonoBehaviour:
   m_sequence: 00030100
   m_cooldownSeconds: 45
   m_payload: {fileID: 1168386417603359676, guid: 68dbb9f63f25818468043829a6ae8eac, type: 3}
-  m_callClip: {fileID: 8300000, guid: 6906dcf24def4a741a8b60fbb2c4e8c0, type: 3}
+  m_callCue:
+    Clips:
+    - {fileID: 8300000, guid: dff1d6245194cd944b3961243eb53895, type: 3}
+    Volume: 1
+    PitchRange: {x: 1, y: 1}

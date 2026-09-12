@@ -30,11 +30,15 @@ public sealed class StrikeIndicator : NetworkBehaviour
     [SerializeField]
     private GameObject m_explosionVfx;
 
+    [Tooltip("Loops while the countdown runs; a late joiner hears it mid-way instead of a replayed siren.")]
     [SerializeField]
-    private AudioClip m_sirenClip;
+    private LoopFader m_warning;
 
     [SerializeField]
-    private AudioClip m_explosionClip;
+    private SfxCue m_tickCue = SfxCue.Default;
+
+    [SerializeField]
+    private SfxCue m_explosionCue = SfxCue.Default;
 
     [SerializeField]
     private CinemachineImpulseSource m_impulse;
@@ -81,21 +85,28 @@ public sealed class StrikeIndicator : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (m_beacon == null)
+        if (m_beacon != null)
         {
-            return;
+            Apply();
         }
+    }
 
-        if (!m_beacon.HasStruck.Value)
+    public override void OnNetworkDespawn()
+    {
+        if (m_warning != null)
         {
-            SfxPlayer.Play(m_sirenClip, transform.position);
+            m_warning.DetachAndFadeOut();
+            m_warning = null;
         }
-
-        Apply();
     }
 
     private void HandleRemainingChanged(float previous, float current)
     {
+        if (current > 0f && Mathf.CeilToInt(previous) != Mathf.CeilToInt(current))
+        {
+            SfxPlayer.Play(m_tickCue, transform.position);
+        }
+
         Apply();
     }
 
@@ -104,7 +115,7 @@ public sealed class StrikeIndicator : NetworkBehaviour
         if (current && !previous)
         {
             Vfx.Spawn(m_explosionVfx, transform.position, Vector3.up);
-            SfxPlayer.Play(m_explosionClip, transform.position);
+            SfxPlayer.Play(m_explosionCue, transform.position);
             if (m_impulse != null)
             {
                 m_impulse.GenerateImpulseAt(transform.position, Vector3.down * m_impulseForce);
@@ -116,6 +127,11 @@ public sealed class StrikeIndicator : NetworkBehaviour
 
     private void Apply()
     {
+        if (m_warning != null)
+        {
+            m_warning.SetPlaying(!m_beacon.HasStruck.Value && m_beacon.Remaining.Value > 0f);
+        }
+
         if (m_renderer == null)
         {
             return;

@@ -19,6 +19,10 @@ public sealed class LoopFader : MonoBehaviour
     [Range(0f, 1f)]
     private float m_volume = 0.5f;
 
+    [Tooltip("Scene ambience: start looping as soon as the object exists.")]
+    [SerializeField]
+    private bool m_playOnStart;
+
     private bool m_playing;
     private bool m_destroyWhenSilent;
 
@@ -36,6 +40,14 @@ public sealed class LoopFader : MonoBehaviour
             m_source.loop = true;
             m_source.playOnAwake = false;
             m_source.volume = 0f;
+        }
+    }
+
+    private void Start()
+    {
+        if (m_playOnStart)
+        {
+            SetPlaying(true);
         }
     }
 

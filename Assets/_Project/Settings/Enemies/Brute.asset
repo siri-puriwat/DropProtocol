@@ -26,6 +26,29 @@ MonoBehaviour:
   m_attackWindupSeconds: 0.6
   m_hitVfx: {fileID: 7753503137635513425, guid: c027d07182d73f448a92200df70585c1, type: 3}
   m_deathVfx: {fileID: 4837270310958842922, guid: 927b885a5f910bd409ca71f6853a2c5d, type: 3}
-  m_attackClip: {fileID: 8300000, guid: 353932835f7ee5249b11952a6efcf151, type: 3}
-  m_hurtClip: {fileID: 8300000, guid: 647757bf459947c4eb52719d259d3631, type: 3}
-  m_deathClip: {fileID: 8300000, guid: 5619892b25d66e54abc23e07c9f27d75, type: 3}
+  m_attackCue:
+    Clips:
+    - {fileID: 8300000, guid: 353932835f7ee5249b11952a6efcf151, type: 3}
+    - {fileID: 8300000, guid: a7676ef907c04bd489e343aa2cca4819, type: 3}
+    - {fileID: 8300000, guid: 54b633cc5896ceb4fb5c0ec40feb7be6, type: 3}
+    - {fileID: 8300000, guid: 66f113a1cb5e7e8478e157c37417d367, type: 3}
+    Volume: 1
+    PitchRange: {x: 0.9, y: 1}
+  m_hurtCue:
+    Clips:
+    - {fileID: 8300000, guid: ef21dd8e49335ae45beea8e84854145d, type: 3}
+    - {fileID: 8300000, guid: e08bf01308f595941be523cd7b68217a, type: 3}
+    Volume: 1
+    PitchRange: {x: 0.9, y: 1}
+  m_deathCue:
+    Clips:
+    - {fileID: 8300000, guid: d0762ba18e1b0f34eaa7c81e2aa0bd24, type: 3}
+    Volume: 1
+    PitchRange: {x: 0.95, y: 1.05}
+  m_footstepCue:
+    Clips:
+    - {fileID: 8300000, guid: fee8aeafba170cb4a82820dd15a0e7d3, type: 3}
+    - {fileID: 8300000, guid: ef45385cfee5b744a8e14e0be43b3753, type: 3}
+    Volume: 0.35
+    PitchRange: {x: 0.8, y: 0.9}
+  m_strideMetres: 1.8

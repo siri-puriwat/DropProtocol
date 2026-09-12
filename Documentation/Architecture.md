@@ -522,11 +522,24 @@ tint is the telegraph. `die` is short, so the existing one-second despawn stays.
 ### Effects and sound are data
 
 `Vfx.Spawn` instantiates self-destroying particle prefabs and `SfxPlayer.Play` plays positional
-one-shots through a ring of sources on the SFX mixer group (`PlayClipAtPoint` cannot route to a
-mixer). Both are null-safe no-ops so tests need no assets. Which effect or clip plays is a field on
-the definition that already describes the thing (`WeaponDefinition`, `EnemyDefinition`,
-`ProtocolDefinition`) or on the payload's indicator, never a type check in code. Pooling was
-rejected: the rifle at ten shots a second is the peak rate.
+one-shots through a `VoiceRing` on the SFX mixer group (`PlayClipAtPoint` cannot route to a
+mixer). Each voice is its own child source and a play lands on an idle one, so position and pitch
+never touch a sound still playing. A sound is an `SfxCue`: several clips, a volume and a pitch
+range, picked at random per play (`SfxCueRules`); an empty cue is silent, so tests and code-built
+scenes need no assets. Which cue plays is a field on the definition that already describes the
+thing (`WeaponDefinition`, `EnemyDefinition`, `ProtocolDefinition`) or on the payload's indicator,
+never a type check in code. Footsteps come from the same blend input the animator gets
+(`LocomotionRules.Stride`), so a spawn snap never fires a burst.
+
+Non-positional sound is scene-local: `UiSfx` on the HUD and on the menu canvas owns 2D voices on
+the UI and Music groups. Loops (relay charge, sentry hum, strike warning, pod descent, extraction
+beacon, ambience) sit on a `LoopFader` child that fades instead of cutting and can outlive a
+despawning owner. Indicators keep two kinds of audio apart: state (loops, colours) goes through an
+idempotent `Apply()` also called on network spawn, edges (one-shots, bursts) only fire from
+`OnValueChanged` on a real transition, and the first observation seeds the cached value silently so
+a late joiner never hears a replay. The `AudioListener` follows the local player's position from a
+child of the camera (`AudioListenerFollow`) and never its yaw. Pooling of VFX was rejected: the
+rifle at ten shots a second is the peak rate.
 
 ## UI (Milestone 8)
 

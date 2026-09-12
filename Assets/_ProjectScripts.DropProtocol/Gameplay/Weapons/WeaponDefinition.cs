@@ -52,10 +52,13 @@ public sealed class WeaponDefinition : ScriptableObject
     private GameObject m_impactVfx;
 
     [SerializeField]
-    private AudioClip m_fireClip;
+    private SfxCue m_fireCue = SfxCue.Default;
 
     [SerializeField]
-    private AudioClip m_reloadClip;
+    private SfxCue m_reloadCue = SfxCue.Default;
+
+    [SerializeField]
+    private SfxCue m_impactCue = SfxCue.Default;
 
     public string DisplayName => m_displayName;
     public WeaponHitMode HitMode => m_hitMode;
@@ -68,8 +71,9 @@ public sealed class WeaponDefinition : ScriptableObject
     public float Range => m_range;
     public GameObject MuzzleFlash => m_muzzleFlash;
     public GameObject ImpactVfx => m_impactVfx;
-    public AudioClip FireClip => m_fireClip;
-    public AudioClip ReloadClip => m_reloadClip;
+    public SfxCue FireCue => m_fireCue;
+    public SfxCue ReloadCue => m_reloadCue;
+    public SfxCue ImpactCue => m_impactCue;
 
     public static WeaponDefinition Create(int damage, float roundsPerSecond, int magazineSize, float reloadSeconds,
         float spreadDegrees, float range)

@@ -27,13 +27,13 @@ public sealed class ProtocolDefinition : ScriptableObject
     private NetworkObject m_payload;
 
     [SerializeField]
-    private AudioClip m_callClip;
+    private SfxCue m_callCue = SfxCue.Default;
 
     public string DisplayName => m_displayName;
     public ProtocolDirection[] Sequence => m_sequence;
     public float CooldownSeconds => m_cooldownSeconds;
     public NetworkObject Payload => m_payload;
-    public AudioClip CallClip => m_callClip;
+    public SfxCue CallCue => m_callCue;
 
     public static ProtocolDefinition Create(string displayName, ProtocolDirection[] sequence, float cooldownSeconds,
         NetworkObject payload)

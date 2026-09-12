@@ -24,7 +24,11 @@ public sealed class SupplyIndicator : NetworkBehaviour
     private GameObject m_landingVfx;
 
     [SerializeField]
-    private AudioClip m_landingClip;
+    private SfxCue m_landingCue = SfxCue.Default;
+
+    [Tooltip("Loops while the pod is still falling.")]
+    [SerializeField]
+    private LoopFader m_descent;
 
     private MaterialPropertyBlock m_block;
 
@@ -62,12 +66,21 @@ public sealed class SupplyIndicator : NetworkBehaviour
         }
     }
 
+    public override void OnNetworkDespawn()
+    {
+        if (m_descent != null)
+        {
+            m_descent.DetachAndFadeOut();
+            m_descent = null;
+        }
+    }
+
     private void HandleOpenChanged(bool previous, bool current)
     {
         if (current && !previous)
         {
             Vfx.Spawn(m_landingVfx, transform.position, Vector3.up);
-            SfxPlayer.Play(m_landingClip, transform.position);
+            SfxPlayer.Play(m_landingCue, transform.position);
         }
 
         Apply();
@@ -75,6 +88,11 @@ public sealed class SupplyIndicator : NetworkBehaviour
 
     private void Apply()
     {
+        if (m_descent != null)
+        {
+            m_descent.SetPlaying(!m_pod.IsOpen.Value);
+        }
+
         if (m_renderer == null)
         {
             return;

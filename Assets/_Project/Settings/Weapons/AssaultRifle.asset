@@ -22,5 +22,24 @@ MonoBehaviour:
   m_range: 60
   m_muzzleFlash: {fileID: 4366371338891736536, guid: 432587f9f4276e149af9221ac857376b, type: 3}
   m_impactVfx: {fileID: 2874649749807420349, guid: da4b3b216289a084b9990af6213682ad, type: 3}
-  m_fireClip: {fileID: 8300000, guid: 7f15b1eb546e44342a49d77ce77e2df3, type: 3}
-  m_reloadClip: {fileID: 8300000, guid: 7d88a7b24a3356940b9ae3620c3c503f, type: 3}
+  m_fireCue:
+    Clips:
+    - {fileID: 8300000, guid: 7f15b1eb546e44342a49d77ce77e2df3, type: 3}
+    - {fileID: 8300000, guid: b231077e2e1053541a9df851173f3280, type: 3}
+    - {fileID: 8300000, guid: 8243b19703f784d4aac31b030192c294, type: 3}
+    - {fileID: 8300000, guid: a2a771c9aa7e25346abeb5f822b919d4, type: 3}
+    - {fileID: 8300000, guid: 8b08939123627ba4099709c56122cb97, type: 3}
+    Volume: 1
+    PitchRange: {x: 0.94, y: 1.06}
+  m_reloadCue:
+    Clips:
+    - {fileID: 8300000, guid: 112c3927fb05504478c7be6cd438319d, type: 3}
+    Volume: 0.8
+    PitchRange: {x: 1, y: 1}
+  m_impactCue:
+    Clips:
+    - {fileID: 8300000, guid: cf6360be7b842cf4cb999674d506995b, type: 3}
+    - {fileID: 8300000, guid: 38a8aa7a6eadbaf4f84bc8487364fa66, type: 3}
+    - {fileID: 8300000, guid: 7b5711ebfc0414c4ea96e393cef15291, type: 3}
+    Volume: 0.6
+    PitchRange: {x: 0.95, y: 1.05}

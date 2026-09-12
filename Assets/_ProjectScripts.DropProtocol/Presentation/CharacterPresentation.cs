@@ -45,13 +45,20 @@ public sealed class CharacterPresentation : NetworkBehaviour
     private GameObject m_reviveVfx;
 
     [SerializeField]
-    private AudioClip m_hurtClip;
+    private SfxCue m_hurtCue = SfxCue.Default;
 
     [SerializeField]
-    private AudioClip m_downedClip;
+    private SfxCue m_downedCue = SfxCue.Default;
 
     [SerializeField]
-    private AudioClip m_reviveClip;
+    private SfxCue m_reviveCue = SfxCue.Default;
+
+    [SerializeField]
+    private SfxCue m_footstepCue = SfxCue.Default;
+
+    [SerializeField]
+    [Min(0.2f)]
+    private float m_strideMetres = 1.6f;
 
     private CharacterMotor m_motor;
     private Health m_health;
@@ -62,6 +69,7 @@ public sealed class CharacterPresentation : NetworkBehaviour
     private RendererTint m_tint;
     private float m_flashUntil;
     private bool m_flashing;
+    private float m_stride;
 
     public PresentationSnapshot Snapshot { get; private set; }
 
@@ -170,6 +178,16 @@ public sealed class CharacterPresentation : NetworkBehaviour
         snapshot.Move = move;
         Snapshot = snapshot;
 
+        bool downed = m_health != null && m_health.IsDowned;
+        if (!downed && LocomotionRules.Stride(ref m_stride, move, moveSpeed, Time.deltaTime, m_strideMetres))
+        {
+            SfxPlayer.Play(m_footstepCue, transform.position);
+        }
+        else if (downed)
+        {
+            m_stride = 0f;
+        }
+
         if (m_flashing && Time.time >= m_flashUntil)
         {
             m_flashing = false;
@@ -185,14 +203,14 @@ public sealed class CharacterPresentation : NetworkBehaviour
         {
             SetTrigger(GetUpId);
             Vfx.Spawn(m_reviveVfx, transform.position, Vector3.up);
-            SfxPlayer.Play(m_reviveClip, transform.position);
+            SfxPlayer.Play(m_reviveCue, transform.position);
         }
         else if (current < previous)
         {
             m_flashUntil = Time.time + m_hitFlashSeconds;
             m_flashing = true;
             m_tint.Apply(m_hitColor);
-            SfxPlayer.Play(current <= 0 ? m_downedClip : m_hurtClip, transform.position);
+            SfxPlayer.Play(current <= 0 ? m_downedCue : m_hurtCue, transform.position);
         }
     }
 
@@ -201,7 +219,7 @@ public sealed class CharacterPresentation : NetworkBehaviour
         SetBool(IsReloadingId, current);
         if (current && !previous && m_weapon.Definition != null)
         {
-            SfxPlayer.Play(m_weapon.Definition.ReloadClip, transform.position);
+            SfxPlayer.Play(m_weapon.Definition.ReloadCue, transform.position);
         }
     }
 
@@ -221,10 +239,11 @@ public sealed class CharacterPresentation : NetworkBehaviour
         }
 
         Vfx.Spawn(definition.MuzzleFlash, muzzle, end - muzzle);
-        SfxPlayer.Play(definition.FireClip, muzzle);
+        SfxPlayer.Play(definition.FireCue, muzzle);
         if (hit)
         {
             Vfx.Spawn(definition.ImpactVfx, end, muzzle - end);
+            SfxPlayer.Play(definition.ImpactCue, end);
         }
     }
 
@@ -234,7 +253,7 @@ public sealed class CharacterPresentation : NetworkBehaviour
         var loadout = m_protocols.Loadout;
         if (slot >= 0 && slot < loadout.Count && loadout[slot] != null)
         {
-            SfxPlayer.Play(loadout[slot].CallClip, transform.position);
+            SfxPlayer.Play(loadout[slot].CallCue, transform.position);
         }
     }
 
