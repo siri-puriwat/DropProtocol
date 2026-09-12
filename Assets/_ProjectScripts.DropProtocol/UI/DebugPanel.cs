@@ -48,6 +48,9 @@ public sealed class DebugPanel : HudView
     private TMP_Text m_weaponLabel;
 
     [SerializeField]
+    private Button m_newMapButton;
+
+    [SerializeField]
     private TMP_Text m_readout;
 
     private InputAction m_toggle;
@@ -63,6 +66,7 @@ public sealed class DebugPanel : HudView
         Listen(m_directorButton, ToggleDirector);
         Listen(m_botsButton, ToggleBots);
         Listen(m_weaponButton, NextWeapon);
+        Listen(m_newMapButton, NewMap);
         for (int i = 0; i < m_spawnButtons.Length; i++)
         {
             int index = i;
@@ -142,11 +146,18 @@ public sealed class DebugPanel : HudView
             m_weaponLabel.text = weapon != null && weapon.Definition != null ? $"Weapon: {weapon.Definition.DisplayName}" : "Weapon";
         }
 
+        var map = MissionMap.Instance;
+        if (m_newMapButton != null && m_newMapButton.gameObject.activeSelf != (map != null))
+        {
+            m_newMapButton.gameObject.SetActive(map != null);
+        }
+
         if (m_readout != null)
         {
             string budget = director != null ? $"  Budget {director.Budget:0.0}" : string.Empty;
             string bots = spawner != null ? $"  Bots {spawner.BotCount}" : string.Empty;
-            m_readout.text = $"Enemies {EnemyCharacter.All.Count}{budget}{bots}";
+            string seed = map != null && map.Layout != null ? $"  Seed {map.Layout.Seed}" : string.Empty;
+            m_readout.text = $"Enemies {EnemyCharacter.All.Count}{budget}{bots}{seed}";
         }
     }
 
@@ -192,6 +203,15 @@ public sealed class DebugPanel : HudView
         if (director != null && index < director.Prefabs.Count)
         {
             director.Spawn(index);
+        }
+    }
+
+    private static void NewMap()
+    {
+        var session = NetworkSession.Instance;
+        if (session != null)
+        {
+            session.ReloadGameplayScene();
         }
     }
 

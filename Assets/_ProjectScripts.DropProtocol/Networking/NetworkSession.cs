@@ -136,6 +136,24 @@ public sealed class NetworkSession : MonoBehaviour
         return true;
     }
 
+    /// <summary>Host only: reloads the gameplay scene through Netcode so every peer follows and respawns.</summary>
+    public bool ReloadGameplayScene()
+    {
+        if (!IsHost)
+        {
+            return false;
+        }
+
+        SceneEventProgressStatus status = m_networkManager.SceneManager.LoadScene(m_gameplayScene, LoadSceneMode.Single);
+        if (status != SceneEventProgressStatus.Started)
+        {
+            Debug.LogWarning($"Could not reload {m_gameplayScene}: {status}.", this);
+            return false;
+        }
+
+        return true;
+    }
+
     public void Leave()
     {
         if (!IsInSession)

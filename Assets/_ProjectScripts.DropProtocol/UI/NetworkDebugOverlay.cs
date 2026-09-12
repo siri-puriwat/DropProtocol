@@ -106,7 +106,9 @@ public sealed class NetworkDebugOverlay : MonoBehaviour
 
         int clients = manager.IsServer ? manager.ConnectedClientsIds.Count : 1;
         int objects = manager.SpawnManager != null ? manager.SpawnManager.SpawnedObjects.Count : 0;
-        return $"{role}  tick {tickRate} Hz  RTT {rtt} ms  clients {clients}  objects {objects}";
+        MissionMap map = MissionMap.Instance;
+        string seed = map != null && map.Layout != null ? $"  seed {map.Layout.Seed}" : string.Empty;
+        return $"{role}  tick {tickRate} Hz  RTT {rtt} ms  clients {clients}  objects {objects}{seed}";
     }
 }
 }
