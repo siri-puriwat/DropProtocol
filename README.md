@@ -22,7 +22,7 @@ architecture rather than feature count. Architecture, networking and asset notes
 - Server-authoritative multiplayer with Netcode for GameObjects (host/client, 1–4 players)
 - A command abstraction that makes human input, network input, bots, and tests interchangeable
 - Bot squadmates driving the *same* player character implementation as humans
-- Data-driven weapons, enemies and protocols via ScriptableObjects, effects and sounds included
+- Data-driven weapons, enemies and protocols via ScriptableObjects, effects and sound cue sets included
 - A threat-budget enemy director rather than fixed spawn timers
 - Host-validated support protocols: directional sequences that call in a supply drop, a sentry or an air strike
 - Animation, VFX and audio derived from replicated state on every peer — no `NetworkAnimator`
@@ -39,6 +39,8 @@ architecture rather than feature count. Architecture, networking and asset notes
 | Sentry then Strike, typed as arrow sequences and validated by the host | A bot revives the downed host |
 | ![Network stats overlay](Documentation/Images/netstats.png) | ![Main menu](Documentation/Images/main-menu.png) |
 | F3: Multiplayer Tools net stats plus tick rate, RTT and object counts | Host, join by address, or open the sandbox |
+| ![Mission map](Documentation/Images/mission-map.png) | ![Relay bunker](Documentation/Images/relay-bunker.png) |
+| The station map: perimeter, three relay bunkers, extraction apron, container cover | A relay console in its bunker, all Kenney space kits |
 
 ## How it works
 
