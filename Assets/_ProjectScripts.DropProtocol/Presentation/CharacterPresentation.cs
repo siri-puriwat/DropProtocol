@@ -26,6 +26,10 @@ public sealed class CharacterPresentation : NetworkBehaviour
     [SerializeField]
     private Transform m_visual;
 
+    [Tooltip("Where the flash appears on this peer. The replicated muzzle stays the gameplay point.")]
+    [SerializeField]
+    private Transform m_muzzleVisual;
+
     [SerializeField]
     [Min(0f)]
     private float m_deadzone = 0.05f;
@@ -238,8 +242,10 @@ public sealed class CharacterPresentation : NetworkBehaviour
             return;
         }
 
-        Vfx.Spawn(definition.MuzzleFlash, muzzle, end - muzzle);
-        SfxPlayer.Play(definition.FireCue, muzzle);
+        // The RPC carries the server muzzle; the flash sits on the barrel this peer is drawing.
+        var flashOrigin = m_muzzleVisual != null ? m_muzzleVisual.position : muzzle;
+        Vfx.Spawn(definition.MuzzleFlash, flashOrigin, end - flashOrigin);
+        SfxPlayer.Play(definition.FireCue, flashOrigin);
         if (hit)
         {
             Vfx.Spawn(definition.ImpactVfx, end, muzzle - end);

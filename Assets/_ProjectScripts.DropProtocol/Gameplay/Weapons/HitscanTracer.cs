@@ -8,6 +8,10 @@ public sealed class HitscanTracer : MonoBehaviour
     [SerializeField]
     private LineRenderer m_line;
 
+    [Tooltip("Optional barrel tip on this peer; the replicated muzzle is used when empty.")]
+    [SerializeField]
+    private Transform m_origin;
+
     [SerializeField]
     [Min(0.01f)]
     private float m_lifetimeSeconds = 0.06f;
@@ -61,7 +65,7 @@ public sealed class HitscanTracer : MonoBehaviour
             return;
         }
 
-        m_line.SetPosition(0, muzzle);
+        m_line.SetPosition(0, m_origin != null ? m_origin.position : muzzle);
         m_line.SetPosition(1, end);
         var color = hit ? m_hitColor : m_missColor;
         m_line.startColor = color;
