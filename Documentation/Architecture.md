@@ -551,7 +551,10 @@ replicated values it shows (`HealthView` to `Health.Current`, `AmmoView` to `Amm
 `ProtocolView` to `Entered`/`Cooldowns`) and unbinds on despawn. Scene-level readouts (`MissionView`,
 `ResultView`, `SquadView`) poll instead: the director spawns with the scene and four squad rows are
 cheaper to refresh than to wire events for. Text and fractions come from `HudFormat`, a static class
-with EditMode tests, so the canvas never carries logic.
+with EditMode tests, so the canvas never carries logic. Bars are `FillBar` widgets: a sliced fill
+sized by its anchors over a generated `RoundedRect` 9-slice sprite, the way the uGUI Slider works,
+because `Image.Filled` stretches a sprite's caps instead of slicing them. The health label sits on a
+TMP underlay material preset (`Art/UI/`) because uGUI `Shadow` never touches TextMeshPro meshes.
 
 Two things the HUD wanted were not replicated: whether a player is a bot (now
 `NetworkPlayer.BotFlag`, server-written once at spawn) and who a reviver is reviving (still not;
