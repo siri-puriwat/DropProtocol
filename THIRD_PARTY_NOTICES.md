@@ -17,6 +17,8 @@ it is committed.
 | Interface Sounds 1.0 (subset) | Kenney | https://kenney.nl/assets/interface-sounds | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | `Assets/Kenney/InterfaceSounds/` |
 | Music Jingles 1.0 (subset) | Kenney | https://kenney.nl/assets/music-jingles | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | `Assets/Kenney/MusicJingles/` |
 | Blaster Kit 2.1 (subset) | Kenney | https://kenney.nl/assets/blaster-kit | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | `Assets/Kenney/BlasterKit/` |
+| Space Station Kit 1.0 (subset) | Kenney | https://kenney.nl/assets/space-station-kit | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | `Assets/Kenney/SpaceStationKit/` |
+| Modular Space Kit 1.0 (subset) | Kenney | https://kenney.nl/assets/modular-space-kit | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | `Assets/Kenney/ModularSpaceKit/` |
 | TextMesh Pro Essential Resources (Liberation Sans font) | Unity / Red Hat | `com.unity.ugui` package importer | [SIL OFL 1.1](https://openfontlicense.org/) (font), Unity Companion License (shaders, sprites) | `Assets/TextMesh Pro/` |
 
 ## Packages

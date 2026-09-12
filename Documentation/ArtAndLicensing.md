@@ -62,6 +62,39 @@ server samples the muzzle on a culled animator. The sentry carries `blaster-e`, 
 dummy a `target-large` plate. Squad slots are told apart by four skin materials on the player body,
 the same pattern as the enemy skins; the marker keeps its property block.
 
+## Level kits
+
+The mission map is built from two Kenney kits under `Assets/Kenney/`, both imported with no
+materials (one URP Lit material per kit on the kit atlas, GPU instancing on) and no rigs, and only
+the pieces the map uses. The **Modular Space Kit** is authored at human scale and imports at scale 1:
+its 4 m module fits the 80 m ground exactly and its walls (4.00 x 4.25 x 1.00 m, pivot on the inner
+face) form the perimeter. The **Space Station Kit** is a diorama kit and imports at global scale 2,
+which is what puts its props above the 0.9 m muzzle line the combat rules assume: interior walls
+2.00 m, `container` 1.20, `container-wide` 1.40, `container-tall` 1.80, `computer-system` 1.20,
+`skip` 1.00, while rails and tables (0.80 m) and rocks (0.71 m) deliberately stay below it. Floor
+slabs are 0.60 m thick with the walking face on top, so they sit at y -0.59 over the ground plane.
+`structure-barrier` is an open frame of 17 meshes and never gets a collider. Level prefabs live in
+`Prefabs/Level/`, are plain GameObjects (no `NetworkObject`), and only pieces that must obstruct
+carry a hand-sized `BoxCollider`; the perimeter uses four long colliders instead of one per wall.
+The cover floor drops from the 1.5 m primitive cubes to 1.2 m containers.
+
+Measured after import (bounds size, metres):
+
+| Piece | Size | Note |
+|---|---|---|
+| Modular `template-wall` | 4.00 x 4.25 x 1.00 | body on the pivot's -Z side |
+| Modular `template-wall-corner` | 1.00 x 4.05 x 1.00 | pivot at a corner |
+| Modular `template-floor` | 4.00 x 0.00 x 4.00 | flat quad |
+| Station `wall` | 2.00 x 2.00 x 0.60 | centred |
+| Station `wall-pillar` | 2.00 x 2.00 x 1.00 | centred |
+| Station `container` / `-wide` / `-tall` | 1.15 x 1.20 / 1.20 x 1.40 / 1.20 x 1.80 | centred |
+| Station `container-flat` | 1.32 x 1.20 x 2.18 | centred |
+| Station `computer-system` | 1.80 x 1.20 x 1.39 | base pivot |
+| Station `floor`, `floor-panel*` | 2.00 x 0.60 x 2.00 | walk on the top face |
+| Station `rail` / `rail-narrow` | 2.00 / 1.00 x 0.80 x 0.20 | below the muzzle line |
+| Station `skip` | 1.40 x 1.00 x 2.40 | marginal cover |
+| Station `rocks` | 2.22 x 0.71 x 2.03 | pivot at a corner |
+
 ## Effects and audio
 
 Particle prefabs live in `Prefabs/Vfx/` on one additive material; every burst is under fifty
