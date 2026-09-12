@@ -64,6 +64,12 @@ public sealed class PlayerSpawner : NetworkBehaviour
         m_fillWithBots = fillWithBots;
     }
 
+    /// <summary>The mission map hands over the anchors of the assembled layout before this object spawns.</summary>
+    public void SetSpawnPoints(Transform[] spawnPoints)
+    {
+        m_spawnPoints = spawnPoints;
+    }
+
     public override void OnNetworkSpawn()
     {
         if (!IsServer)
