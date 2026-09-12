@@ -138,6 +138,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: DropProtocol::DropProtocol.SfxPlayer
   m_group: {fileID: 6331197788913679839, guid: d585b8004b1b82843a2167fef6280c86, type: 2}
-  m_voices: 8
+  m_voices: 12
   m_minDistance: 4
   m_maxDistance: 45

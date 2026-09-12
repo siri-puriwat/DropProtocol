@@ -4,18 +4,21 @@ using UnityEngine.Audio;
 namespace DropProtocol
 {
 /// <summary>
-///     Positional one-shot sounds through a small ring of sources. Exists because
+///     Positional one-shot sounds through a <see cref="VoiceRing" /> on the SFX mixer group. Exists because
 ///     <c>AudioSource.PlayClipAtPoint</c> cannot route to a mixer group. Missing clips and a missing player
-///     are both silent no-ops so tests and code-built scenes need no audio setup.
+///     are both silent no-ops so tests and code-built scenes need no audio setup. Loops never go through
+///     here; they own an <see cref="AudioSource" /> behind a <see cref="LoopFader" />.
 /// </summary>
 public sealed class SfxPlayer : MonoBehaviour
 {
+    private const int OneShotPriority = 128;
+
     [SerializeField]
     private AudioMixerGroup m_group;
 
     [SerializeField]
     [Range(1, 32)]
-    private int m_voices = 8;
+    private int m_voices = 12;
 
     [SerializeField]
     [Min(0f)]
@@ -25,8 +28,7 @@ public sealed class SfxPlayer : MonoBehaviour
     [Min(1f)]
     private float m_maxDistance = 45f;
 
-    private AudioSource[] m_sources;
-    private int m_next;
+    private VoiceRing m_ring;
 
     private static SfxPlayer m_instance;
 
@@ -39,18 +41,7 @@ public sealed class SfxPlayer : MonoBehaviour
         }
 
         m_instance = this;
-        m_sources = new AudioSource[m_voices];
-        for (int i = 0; i < m_voices; i++)
-        {
-            var source = gameObject.AddComponent<AudioSource>();
-            source.playOnAwake = false;
-            source.spatialBlend = 1f;
-            source.rolloffMode = AudioRolloffMode.Linear;
-            source.minDistance = m_minDistance;
-            source.maxDistance = m_maxDistance;
-            source.outputAudioMixerGroup = m_group;
-            m_sources[i] = source;
-        }
+        m_ring = new VoiceRing(transform, "Voice", m_voices, m_group, true, m_minDistance, m_maxDistance, OneShotPriority);
     }
 
     private void OnDestroy()
@@ -70,16 +61,24 @@ public sealed class SfxPlayer : MonoBehaviour
 
     public static void Play(AudioClip clip, Vector3 position, float volume = 1f)
     {
-        if (clip == null || m_instance == null || m_instance.m_sources == null)
+        if (clip == null || m_instance == null || m_instance.m_ring == null)
         {
             return;
         }
 
-        var source = m_instance.m_sources[m_instance.m_next];
-        m_instance.m_next = (m_instance.m_next + 1) % m_instance.m_sources.Length;
+        m_instance.m_ring.Play(clip, position, volume, 1f);
+    }
 
-        source.transform.position = position;
-        source.PlayOneShot(clip, volume);
+    public static void Play(in SfxCue cue, Vector3 position)
+    {
+        if (cue.IsEmpty || m_instance == null || m_instance.m_ring == null)
+        {
+            return;
+        }
+
+        var clip = cue.Clips[SfxCueRules.Pick(cue.Clips.Length, Random.value)];
+        float pitch = SfxCueRules.Pitch(cue.PitchRange, Random.value);
+        m_instance.m_ring.Play(clip, position, cue.Volume, pitch);
     }
 }
 }
