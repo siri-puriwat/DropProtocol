@@ -3,16 +3,26 @@ using UnityEngine;
 
 namespace DropProtocol
 {
-/// <summary>Colours a supply pod by whether it has arrived. Presentation only.</summary>
+/// <summary>
+///     Colours a supply pod by whether it has arrived and opens its lid. The lid pose is state: a late joiner
+///     sees it already open instead of watching it open. Presentation only.
+/// </summary>
 public sealed class SupplyIndicator : NetworkBehaviour
 {
-    private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
+    private static readonly int IsOpenId = Animator.StringToHash("IsOpen");
 
     [SerializeField]
     private SupplyPod m_pod;
 
     [SerializeField]
-    private Renderer m_renderer;
+    private Renderer[] m_renderers = System.Array.Empty<Renderer>();
+
+    [SerializeField]
+    private Animator m_animator;
+
+    [Tooltip("Animator state to snap to when the pod is already open on spawn.")]
+    [SerializeField]
+    private string m_openState = "Open";
 
     [SerializeField]
     private Color m_incomingColor = new(0.4f, 0.4f, 0.45f);
@@ -30,11 +40,11 @@ public sealed class SupplyIndicator : NetworkBehaviour
     [SerializeField]
     private LoopFader m_descent;
 
-    private MaterialPropertyBlock m_block;
+    private RendererTint m_tint;
 
     private void Awake()
     {
-        m_block = new MaterialPropertyBlock();
+        m_tint = new RendererTint(m_renderers);
     }
 
     private void OnEnable()
@@ -45,7 +55,7 @@ public sealed class SupplyIndicator : NetworkBehaviour
         }
 
         m_pod.IsOpen.OnValueChanged += HandleOpenChanged;
-        Apply();
+        Apply(false);
     }
 
     private void OnDisable()
@@ -62,7 +72,7 @@ public sealed class SupplyIndicator : NetworkBehaviour
     {
         if (m_pod != null)
         {
-            Apply();
+            Apply(false);
         }
     }
 
@@ -83,24 +93,27 @@ public sealed class SupplyIndicator : NetworkBehaviour
             SfxPlayer.Play(m_landingCue, transform.position);
         }
 
-        Apply();
+        Apply(true);
     }
 
-    private void Apply()
+    private void Apply(bool animate)
     {
+        bool open = m_pod.IsOpen.Value;
         if (m_descent != null)
         {
-            m_descent.SetPlaying(!m_pod.IsOpen.Value);
+            m_descent.SetPlaying(!open);
         }
 
-        if (m_renderer == null)
+        if (m_animator != null)
         {
-            return;
+            m_animator.SetBool(IsOpenId, open);
+            if (open && !animate)
+            {
+                m_animator.Play(m_openState, 0, 1f);
+            }
         }
 
-        m_renderer.GetPropertyBlock(m_block);
-        m_block.SetColor(BaseColorId, m_pod.IsOpen.Value ? m_openColor : m_incomingColor);
-        m_renderer.SetPropertyBlock(m_block);
+        m_tint.Apply(open ? m_openColor : m_incomingColor);
     }
 }
 }
