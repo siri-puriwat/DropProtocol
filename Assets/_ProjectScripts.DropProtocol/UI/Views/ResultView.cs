@@ -23,7 +23,7 @@ public sealed class ResultView : HudView
     private TMP_Text m_buttonLabel;
 
     [SerializeField]
-    private AudioSource m_audio;
+    private UiSfx m_sfx;
 
     [SerializeField]
     private AudioClip m_completeClip;
@@ -103,9 +103,9 @@ public sealed class ResultView : HudView
 
     private void PlayStinger(AudioClip clip)
     {
-        if (m_audio != null && clip != null)
+        if (m_sfx != null)
         {
-            m_audio.PlayOneShot(clip);
+            m_sfx.PlayMusic(clip);
         }
     }
 }

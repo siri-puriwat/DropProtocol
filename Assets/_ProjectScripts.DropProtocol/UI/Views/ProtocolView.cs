@@ -4,6 +4,9 @@ namespace DropProtocol
 {
 public sealed class ProtocolView : HudView
 {
+    // Each accepted key of a sequence rises a little so the ear can count along.
+    private const float KeyPitchStep = 0.08f;
+
     [SerializeField]
     private ProtocolSlotView[] m_slots = System.Array.Empty<ProtocolSlotView>();
 
@@ -17,7 +20,7 @@ public sealed class ProtocolView : HudView
     private AudioClip m_rejectClip;
 
     [SerializeField]
-    private AudioSource m_audio;
+    private UiSfx m_sfx;
 
     private readonly ProtocolDirection[] m_entered = new ProtocolDirection[ProtocolRules.MaxSequenceLength];
     private ProtocolController m_protocols;
@@ -65,11 +68,11 @@ public sealed class ProtocolView : HudView
         // A longer prefix is a key the host accepted; a reset after a partial entry is a rejection or a call.
         if (m_enteredCount > previousCount)
         {
-            PlayUi(m_keyClip);
+            PlayUi(m_keyClip, 1f + KeyPitchStep * (m_enteredCount - 1));
         }
         else if (m_enteredCount == 0 && previousCount > 0 && !AnyCooldownJustStarted())
         {
-            PlayUi(m_rejectClip);
+            PlayUi(m_rejectClip, 1f);
         }
 
         Apply();
@@ -106,11 +109,11 @@ public sealed class ProtocolView : HudView
         }
     }
 
-    private void PlayUi(AudioClip clip)
+    private void PlayUi(AudioClip clip, float pitch)
     {
-        if (m_audio != null && clip != null)
+        if (m_sfx != null)
         {
-            m_audio.PlayOneShot(clip);
+            m_sfx.PlayUi(clip, pitch);
         }
     }
 }
