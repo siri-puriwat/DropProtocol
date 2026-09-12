@@ -154,6 +154,14 @@ the root of `00_Bootstrap` only. The HUD's `SessionPanel` instantiates it when a
 played directly, and `NetworkSession.StartHost()` loads the gameplay scene only when the
 menu is the active scene: hosting from any other scene keeps that scene.
 
+The mission scene assembles its map in `MissionMap.Awake`, which runs on scene activation, before
+NGO spawns the in-scene NetworkObjects, so the host has anchors and a NavMesh when `PlayerSpawner`
+and `EnemyDirector` spawn. A remote client skips that step and assembles when the `MissionMap`
+object spawns with the host's seed. `NetworkSession.ReloadGameplayScene()` (host only, the F1
+"New map" button) loads the same scene again through the `NetworkSceneManager`: every peer
+reloads, the in-scene objects respawn, `PlayerSpawner` respawns the whole squad and the session
+stays up.
+
 ## Disconnect handling
 
 `NetworkSession` is the single owner of session lifetime:
@@ -218,6 +226,10 @@ Bot Brain ───────────────────────�
   `ProtocolController.Called`, an unreliable cosmetic RPC like `ShotFired` sent after a payload
   spawns. VFX and SFX hang off these and off `Health.Current` changes, so damage feedback needs no
   attacker information.
+- Map: `MissionMap.Seed` (int, server-written at spawn). Every peer assembles the same tile grid
+  from it locally; tiles, anchors and the NavMesh never replicate. The three in-scene relays and the
+  extraction zone are moved onto the layout's anchors on every peer by the same rules, and NGO also
+  carries the server's pose of the in-scene relays in their spawn message.
 - HUD (Milestone 8): `NetworkPlayer.BotFlag` (bool, server-written at spawn) labels squad rows;
   everything else the HUD shows was already replicated. The F3 overlay reads the Multiplayer Tools
   net stats monitor and `UnityTransport.GetCurrentRtt`.

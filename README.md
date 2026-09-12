@@ -40,7 +40,7 @@ architecture rather than feature count. Architecture, networking and asset notes
 | ![Network stats overlay](Documentation/Images/netstats.png) | ![Main menu](Documentation/Images/main-menu.png) |
 | F3: Multiplayer Tools net stats plus tick rate, RTT and object counts | Host, join by address, or open the sandbox |
 | ![Mission map](Documentation/Images/mission-map.png) | ![Relay bunker](Documentation/Images/relay-bunker.png) |
-| The station map: perimeter, three relay bunkers, extraction apron, container cover | A relay console in its bunker, all Kenney space kits |
+| A seeded map: sixteen tiles picked and rotated to match, relays and extraction on tile sites | A relay site on a grey-box tile, all Kenney space kits |
 
 ## How it works
 
@@ -52,6 +52,8 @@ architecture rather than feature count. Architecture, networking and asset notes
   are the same prefab. [Architecture › Bots](Documentation/Architecture.md#bots-milestone-5)
 - **Threat budget** — the director spends a growing budget on Grunts, Spitters and Brutes instead of
   running timers. [Architecture › Enemies and the director](Documentation/Architecture.md#enemies-and-the-director-milestone-4)
+- **Seeded map** — the host picks a seed, every peer assembles the same tile grid locally and the
+  NavMesh is built at load; nothing about the level crosses the network. [Architecture › Mission map](Documentation/Architecture.md#mission-map-seeded-tiles)
 - **Support protocols** — one reliable RPC per key press, matched on the host, payload spawned as a
   NetworkObject. [Architecture › Support Protocols](Documentation/Architecture.md#support-protocols-milestone-7)
 - **Presentation split** — locomotion from the transform delta, everything else from state that

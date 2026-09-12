@@ -389,6 +389,54 @@ NavMesh paths widened because a relay post is a hole in the mesh.
 `PlayerTint`. The mission readout, result card and the host-from-scene card live in the Milestone 8
 uGUI HUD (see UI).
 
+## Mission map (seeded tiles)
+
+The mission scene ships no level: `MissionMap` assembles one at load from a seed. A map is a 4×4
+grid of 20 m tile prefabs (`Assets/_Project/Prefabs/Map/Tiles`, listed by a `TileSet`). Each tile
+declares a socket per side (open or wall), clear "site" pads and enemy spawn points in tile-local
+whole metres, and four edge wall groups. `MapRules.Generate` is pure C#: a randomized spanning tree
+over the cells opens edges so every cell is reachable, further edges open with a tunable chance to
+add loops, the border stays walled, and each cell then takes a tile whose rotated sockets match its
+signature. One tile per class up to rotation (dead end, corridor, corner, tee, cross) is enough to
+fill any grid; an EditMode test pins the shipped set. Objectives are placed by walking distance: the
+squad drops on a border cell, extraction is the farthest cell, the three relay cells stay at least
+two cells from each other and from both, and the eight enemy spawn cells prefer the border away from
+the drop. Everything is integer math drawn from one `System.Random(seed)`; the only floats are the
+final poses, converted exactly from whole metres.
+
+### Authority and timing
+
+The host picks the seed (or a pending one set by tests and the debug panel) in `MissionMap.Awake`,
+instantiates the tiles, creates the spawn anchors, moves the three in-scene relays and the extraction
+zone onto their anchors, hands the anchors to `PlayerSpawner` and `EnemyDirector`, and builds the
+NavMesh with a `NavMeshSurface` that collects only its own children (about 30 ms for 16 tiles).
+Awake runs on scene activation and Netcode spawns in-scene objects only after the load completes, so
+the spawners find anchors and a NavMesh in `OnNetworkSpawn` whether the host came from the menu,
+started inside the scene, or reloaded it. The seed replicates once as a `NetworkVariable`: a client
+that joined from the menu assembles when the object spawns, and a client that opened the scene itself
+reassembles if its local seed differs. Nothing about the tiles crosses the network. Relays stay the
+scene's in-scene NetworkObjects and are moved rather than spawned, so `MissionDirector`, its relay
+count and the HUD are untouched; runtime-spawned objectives wait for the objective framework.
+
+### Tiles
+
+`DropProtocol/Map/Rebuild Tiles` generates the tile prefabs from code recipes (`TileRecipes`): the
+floor with one collider per tile, a row of 2 m station walls on each walled side, 4 m stubs framing a
+12 m gate on each open side, then the authored cover and anchors. Internal walls are 2 m rather than
+the 4.25 m perimeter kit walls because the 60° camera hides anything within about 2.5 m north of a
+tall wall; tile edge walls on the map border are switched off and the scene perimeter seals the map.
+Recipe rules: cover meant to block fire is at least 1 m tall, routes are at least 2 m wide, the middle
+12 m of an open edge stays clear 3 m deep, a site is a clear 6 m pad, and every tile has a site and
+an enemy spawn. `TileValidationTests` bakes each tile alone and checks that its gates, sites and
+spawns are on the mesh and connected; `MissionMapTests` sweeps seeds through the real scene. The
+relay console carves the NavMesh with a `NavMeshObstacle` because the surface no longer bakes it.
+
+### Debug
+
+F1 shows the seed and, on the host, "New map" reloads the mission scene through Netcode, which
+respawns everyone on a fresh layout; F3 prints the seed on every peer for comparison. In the editor
+the `MissionMap` context menu previews a seed without entering play mode.
+
 ## Support Protocols (Milestone 7)
 
 Directional input sequences request authoritative support actions (Supply, Sentry, Strike). The
