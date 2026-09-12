@@ -36,7 +36,7 @@ namespace DropProtocol.Tests.PlayMode
             m_networkRoot = new GameObject("TestNetworkManager");
             m_networkManager = m_networkRoot.AddComponent<NetworkManager>();
             var transport = m_networkRoot.AddComponent<UnityTransport>();
-            transport.SetConnectionData("127.0.0.1", TestPort, "127.0.0.1");
+            transport.SetConnectionData("127.0.0.1", TestPorts.Free(TestPort), "127.0.0.1");
             m_networkManager.NetworkConfig = new NetworkConfig
             {
                 NetworkTransport = transport,
