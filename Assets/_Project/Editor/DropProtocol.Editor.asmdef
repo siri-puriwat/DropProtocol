@@ -1,7 +1,9 @@
 {
     "name": "DropProtocol.Editor",
     "rootNamespace": "DropProtocol.Editor",
-    "references": [],
+    "references": [
+        "DropProtocol"
+    ],
     "includePlatforms": [
         "Editor"
     ],
