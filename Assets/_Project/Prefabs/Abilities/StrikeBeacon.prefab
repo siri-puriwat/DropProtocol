@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 7569470497276261585}
   - component: {fileID: 7881100567905989698}
   - component: {fileID: 7342132900463500136}
+  - component: {fileID: 2165581854161241078}
   m_Layer: 0
   m_Name: StrikeBeacon
   m_TagString: Untagged
@@ -282,6 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9357c0e155467c48ac212e0e9be3e99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: DropProtocol::DropProtocol.StrikeIndicator
+  ShowTopMostFoldoutHeaderGroup: 1
   m_beacon: {fileID: 7881100567905989698}
   m_ring: {fileID: 7973447404173584396}
   m_renderer: {fileID: 2106882080553958197}
@@ -291,3 +293,58 @@ MonoBehaviour:
   m_explosionVfx: {fileID: 6091351144868391229, guid: 91319169aa34e7445a02ec001463bed1, type: 3}
   m_sirenClip: {fileID: 8300000, guid: ac2694d3c8bd01042ac276c146691ca1, type: 3}
   m_explosionClip: {fileID: 8300000, guid: 74fad2e62a2b6044a9e5a109407ff380, type: 3}
+  m_impulse: {fileID: 2165581854161241078}
+  m_impulseForce: 1.5
+--- !u!114 &2165581854161241078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6232695247258851606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseSource
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 2
+    CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ImpulseDuration: 0.4
+    ImpulseType: 1
+    DissipationRate: 0.25
+    RawSignal: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 40
+    PropagationSpeed: 343
+  DefaultVelocity: {x: 0, y: -1, z: 0}

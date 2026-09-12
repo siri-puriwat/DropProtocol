@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,14 @@ public sealed class DamageFlash : HudView
     [SerializeField]
     [Min(0.01f)]
     private float m_fadeSeconds = 0.4f;
+
+    [SerializeField]
+    private CinemachineImpulseSource m_impulse;
+
+    [Tooltip("Camera kick per point of damage taken by the local player.")]
+    [SerializeField]
+    [Min(0f)]
+    private float m_impulsePerDamage = 0.02f;
 
     private Health m_health;
     private float m_alpha;
@@ -60,6 +69,10 @@ public sealed class DamageFlash : HudView
         {
             m_alpha = m_peakAlpha;
             Apply();
+            if (m_impulse != null)
+            {
+                m_impulse.GenerateImpulse(Vector3.down * ((previous - current) * m_impulsePerDamage));
+            }
         }
     }
 

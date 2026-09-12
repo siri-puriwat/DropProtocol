@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -34,6 +35,13 @@ public sealed class StrikeIndicator : NetworkBehaviour
 
     [SerializeField]
     private AudioClip m_explosionClip;
+
+    [SerializeField]
+    private CinemachineImpulseSource m_impulse;
+
+    [SerializeField]
+    [Min(0f)]
+    private float m_impulseForce = 1.5f;
 
     private MaterialPropertyBlock m_block;
 
@@ -97,6 +105,10 @@ public sealed class StrikeIndicator : NetworkBehaviour
         {
             Vfx.Spawn(m_explosionVfx, transform.position, Vector3.up);
             SfxPlayer.Play(m_explosionClip, transform.position);
+            if (m_impulse != null)
+            {
+                m_impulse.GenerateImpulseAt(transform.position, Vector3.down * m_impulseForce);
+            }
         }
 
         Apply();

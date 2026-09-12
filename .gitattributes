@@ -9,6 +9,8 @@
 *.mat     text merge=unityyamlmerge eol=lf
 *.anim    text merge=unityyamlmerge eol=lf
 *.controller text merge=unityyamlmerge eol=lf
+*.mixer   text merge=unityyamlmerge eol=lf
+*.mask    text merge=unityyamlmerge eol=lf
 *.meta    text eol=lf
 *.asmdef  text eol=lf
 *.cs      text diff=csharp eol=lf
