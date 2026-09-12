@@ -42,12 +42,8 @@ public sealed class AmmoView : HudView
         m_weapon.Ammo.OnValueChanged += HandleAmmoChanged;
         m_weapon.IsReloading.OnValueChanged += HandleReloadingChanged;
         m_weapon.DamageConfirmed += HandleDamageConfirmed;
-        if (m_weaponName != null)
-        {
-            m_weaponName.text = m_weapon.Definition != null ? m_weapon.Definition.DisplayName : string.Empty;
-        }
-
-        Apply();
+        m_weapon.WeaponChanged += HandleWeaponChanged;
+        HandleWeaponChanged(m_weapon.Definition);
     }
 
     protected override void OnUnbind(NetworkPlayer player)
@@ -57,9 +53,20 @@ public sealed class AmmoView : HudView
             m_weapon.Ammo.OnValueChanged -= HandleAmmoChanged;
             m_weapon.IsReloading.OnValueChanged -= HandleReloadingChanged;
             m_weapon.DamageConfirmed -= HandleDamageConfirmed;
+            m_weapon.WeaponChanged -= HandleWeaponChanged;
         }
 
         m_weapon = null;
+    }
+
+    private void HandleWeaponChanged(WeaponDefinition definition)
+    {
+        if (m_weaponName != null)
+        {
+            m_weaponName.text = definition != null ? definition.DisplayName : string.Empty;
+        }
+
+        Apply();
     }
 
     private void HandleAmmoChanged(int previous, int current)

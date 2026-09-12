@@ -126,6 +126,54 @@ namespace DropProtocol.Tests.PlayMode
         }
 
         [UnityTest]
+        public IEnumerator Shotgun_EveryPelletDamagesTheDummy()
+        {
+            WeaponDefinition shotgun = WeaponDefinition.Create(damage: 5, roundsPerSecond: 1f, magazineSize: 6, reloadSeconds: 1f, spreadDegrees: 0f, range: 60f, pelletCount: 4);
+            NetworkPlayer shooter = SpawnPlayer(ClientA, new Vector3(0f, 0.05f, 0f), shotgun);
+            Health dummy = SpawnDummy(new Vector3(0f, 0f, 4f));
+            yield return Wait(SettleSeconds);
+
+            shooter.SubmitCommand(new PlayerCommand { Fire = true, Aim = new Vector2(0f, 1f) });
+            yield return null;
+            yield return null;
+
+            Assert.That(dummy.Current.Value, Is.EqualTo(MaxHealth - 4 * 5));
+            Assert.That(shooter.GetComponent<WeaponController>().Ammo.Value, Is.EqualTo(5));
+            Object.Destroy(shotgun);
+        }
+
+        [UnityTest]
+        public IEnumerator Equip_SwitchesTheDefinitionWithAFullMagazine()
+        {
+            WeaponDefinition tiny = WeaponDefinition.Create(damage: 20, roundsPerSecond: 50f, magazineSize: 2, reloadSeconds: 0.2f, spreadDegrees: 0f, range: 60f);
+            GameObject instance = Object.Instantiate(m_playerTemplate, new Vector3(0f, 0.05f, 0f), Quaternion.identity);
+            m_spawned.Add(instance);
+            var weapon = instance.GetComponent<WeaponController>();
+            weapon.SetDefinition(m_rifle, tiny);
+            instance.SetActive(true);
+            instance.GetComponent<NetworkObject>().SpawnWithOwnership(ClientA);
+            var shooter = instance.GetComponent<NetworkPlayer>();
+            yield return Wait(SettleSeconds);
+
+            shooter.SubmitCommand(new PlayerCommand { Fire = true, Aim = new Vector2(0f, 1f) });
+            yield return null;
+            yield return null;
+            Assert.That(weapon.Ammo.Value, Is.EqualTo(m_rifle.MagazineSize - 1));
+            // Let go of the trigger first: the host keeps the last command, and it would fire the new weapon.
+            yield return Hold(shooter, PlayerCommand.None, 0.1f);
+
+            Assert.That(weapon.EquipNext(), Is.True);
+            yield return null;
+
+            Assert.That(weapon.Definition, Is.SameAs(tiny));
+            Assert.That(weapon.WeaponIndex.Value, Is.EqualTo(1));
+            Assert.That(weapon.Ammo.Value, Is.EqualTo(tiny.MagazineSize));
+            Assert.That(weapon.EquipNext(), Is.True);
+            Assert.That(weapon.Definition, Is.SameAs(m_rifle));
+            Object.Destroy(tiny);
+        }
+
+        [UnityTest]
         public IEnumerator ReloadCommand_RefillsPartialMagazine()
         {
             NetworkPlayer shooter = SpawnPlayer(ClientA, new Vector3(0f, 0.05f, 0f));

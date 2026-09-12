@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f6b17bdf0bddf304498a1cd132389eca, type: 3}
-  m_Name: AssaultRifle
+  m_Name: Shotgun
   m_EditorClassIdentifier: DropProtocol::DropProtocol.WeaponDefinition
-  m_displayName: Assault Rifle
+  m_displayName: Shotgun
   m_hitMode: 0
-  m_damage: 20
-  m_roundsPerSecond: 10
-  m_magazineSize: 30
-  m_reloadSeconds: 2
-  m_spreadDegrees: 3
-  m_range: 60
-  m_pelletCount: 1
+  m_damage: 9
+  m_roundsPerSecond: 1.2
+  m_magazineSize: 6
+  m_reloadSeconds: 2.8
+  m_spreadDegrees: 14
+  m_range: 25
+  m_pelletCount: 8
   m_muzzleFlash: {fileID: 4366371338891736536, guid: 432587f9f4276e149af9221ac857376b, type: 3}
   m_impactVfx: {fileID: 2874649749807420349, guid: da4b3b216289a084b9990af6213682ad, type: 3}
   m_fireCue:

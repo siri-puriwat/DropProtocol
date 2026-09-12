@@ -44,6 +44,11 @@ public sealed class WeaponDefinition : ScriptableObject
     [Min(1f)]
     private float m_range = 60f;
 
+    [Tooltip("Rays per shot; each carries the full damage and its own spread sample.")]
+    [SerializeField]
+    [Min(1)]
+    private int m_pelletCount = 1;
+
     [Header("Presentation")]
     [SerializeField]
     private GameObject m_muzzleFlash;
@@ -69,6 +74,7 @@ public sealed class WeaponDefinition : ScriptableObject
     public float ReloadSeconds => m_reloadSeconds;
     public float SpreadDegrees => m_spreadDegrees;
     public float Range => m_range;
+    public int PelletCount => m_pelletCount;
     public GameObject MuzzleFlash => m_muzzleFlash;
     public GameObject ImpactVfx => m_impactVfx;
     public SfxCue FireCue => m_fireCue;
@@ -76,7 +82,7 @@ public sealed class WeaponDefinition : ScriptableObject
     public SfxCue ImpactCue => m_impactCue;
 
     public static WeaponDefinition Create(int damage, float roundsPerSecond, int magazineSize, float reloadSeconds,
-        float spreadDegrees, float range)
+        float spreadDegrees, float range, int pelletCount = 1)
     {
         var definition = CreateInstance<WeaponDefinition>();
         definition.m_damage = damage;
@@ -85,6 +91,7 @@ public sealed class WeaponDefinition : ScriptableObject
         definition.m_reloadSeconds = reloadSeconds;
         definition.m_spreadDegrees = spreadDegrees;
         definition.m_range = range;
+        definition.m_pelletCount = pelletCount;
         return definition;
     }
 }

@@ -42,6 +42,12 @@ public sealed class DebugPanel : HudView
     private TMP_Text m_botsLabel;
 
     [SerializeField]
+    private Button m_weaponButton;
+
+    [SerializeField]
+    private TMP_Text m_weaponLabel;
+
+    [SerializeField]
     private TMP_Text m_readout;
 
     private InputAction m_toggle;
@@ -56,6 +62,7 @@ public sealed class DebugPanel : HudView
         Listen(m_reviveButton, Revive);
         Listen(m_directorButton, ToggleDirector);
         Listen(m_botsButton, ToggleBots);
+        Listen(m_weaponButton, NextWeapon);
         for (int i = 0; i < m_spawnButtons.Length; i++)
         {
             int index = i;
@@ -129,6 +136,12 @@ public sealed class DebugPanel : HudView
             m_botsLabel.text = spawner != null && spawner.FillWithBots ? "Remove bots" : "Fill bots";
         }
 
+        if (m_weaponLabel != null)
+        {
+            var weapon = Player != null ? Player.GetComponent<WeaponController>() : null;
+            m_weaponLabel.text = weapon != null && weapon.Definition != null ? $"Weapon: {weapon.Definition.DisplayName}" : "Weapon";
+        }
+
         if (m_readout != null)
         {
             string budget = director != null ? $"  Budget {director.Budget:0.0}" : string.Empty;
@@ -152,6 +165,15 @@ public sealed class DebugPanel : HudView
         if (health != null)
         {
             health.Revive(HealthRules.ReviveHitPoints(health.Max, DebugReviveFraction));
+        }
+    }
+
+    private void NextWeapon()
+    {
+        var weapon = Player != null ? Player.GetComponent<WeaponController>() : null;
+        if (weapon != null)
+        {
+            weapon.EquipNext();
         }
     }
 

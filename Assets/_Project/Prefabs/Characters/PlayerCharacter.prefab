@@ -436,6 +436,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: DropProtocol::DropProtocol.WeaponController
   ShowTopMostFoldoutHeaderGroup: 1
   m_definition: {fileID: 11400000, guid: 7d31696f0e4526649bcd4c563af90398, type: 2}
+  m_arsenal:
+  - {fileID: 11400000, guid: d0ab320b0f19421488de78677f60ee0e, type: 2}
+  - {fileID: 11400000, guid: 368bd84621a14d6fb91e5abc8d1b056e, type: 2}
   m_muzzle: {fileID: 670239894414346347}
   m_hitMask:
     serializedVersion: 2
