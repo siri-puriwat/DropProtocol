@@ -38,6 +38,9 @@ public sealed class WeaponController : NetworkBehaviour, IShotSource
 
     public event Action<Vector3, Vector3, bool> ShotFired;
 
+    /// <summary>Owner only: a shot just damaged a living enemy. Cosmetic, for the hit marker.</summary>
+    public event Action DamageConfirmed;
+
     public void SetDefinition(WeaponDefinition definition)
     {
         m_definition = definition;
@@ -144,7 +147,12 @@ public sealed class WeaponController : NetworkBehaviour, IShotSource
             var target = closest.collider.GetComponentInParent<Health>();
             if (target != null)
             {
+                bool confirmed = target.Current.Value > 0 && target.GetComponent<EnemyCharacter>() != null;
                 target.ApplyDamage(m_definition.Damage);
+                if (confirmed)
+                {
+                    DamageConfirmedRpc();
+                }
             }
         }
 
@@ -163,6 +171,13 @@ public sealed class WeaponController : NetworkBehaviour, IShotSource
     private void ShotFiredRpc(Vector3 muzzle, Vector3 end, bool hit)
     {
         ShotFired?.Invoke(muzzle, end, hit);
+    }
+
+    // Cosmetic only, and only the shooter needs it; friendly fire and dead bodies never confirm.
+    [Rpc(SendTo.Owner, Delivery = RpcDelivery.Unreliable)]
+    private void DamageConfirmedRpc()
+    {
+        DamageConfirmed?.Invoke();
     }
 }
 }

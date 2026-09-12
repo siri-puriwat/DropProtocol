@@ -26,6 +26,13 @@ public sealed class DamageFlash : HudView
     [Min(0f)]
     private float m_impulsePerDamage = 0.02f;
 
+    [SerializeField]
+    private UiSfx m_sfx;
+
+    [Tooltip("Heard only by the player who went down; the world thud stays on the character.")]
+    [SerializeField]
+    private AudioClip m_downedClip;
+
     private Health m_health;
     private float m_alpha;
 
@@ -72,6 +79,11 @@ public sealed class DamageFlash : HudView
             if (m_impulse != null)
             {
                 m_impulse.GenerateImpulse(Vector3.down * ((previous - current) * m_impulsePerDamage));
+            }
+
+            if (current <= 0 && previous > 0 && m_sfx != null)
+            {
+                m_sfx.PlayUi(m_downedClip);
             }
         }
     }

@@ -35,6 +35,12 @@ public sealed class MainMenuController : MonoBehaviour
     [SerializeField]
     private TMP_Text m_versionLabel;
 
+    [SerializeField]
+    private UiSfx m_sfx;
+
+    [SerializeField]
+    private AudioClip m_errorClip;
+
     private void Awake()
     {
         m_hostButton.onClick.AddListener(Host);
@@ -63,6 +69,11 @@ public sealed class MainMenuController : MonoBehaviour
 
         // Arriving here after a session ended: tell the player why.
         SetStatus(session.LastDisconnectReason);
+        if (!string.IsNullOrEmpty(session.LastDisconnectReason))
+        {
+            PlayError();
+        }
+
         SetInteractable(true);
     }
 
@@ -105,6 +116,7 @@ public sealed class MainMenuController : MonoBehaviour
         if (!SessionRules.TryParseAddress(m_addressInput.text, out _, out _))
         {
             SetStatus(InvalidAddressStatus);
+            PlayError();
             return;
         }
 
@@ -133,6 +145,14 @@ public sealed class MainMenuController : MonoBehaviour
     private void SetStatus(string text)
     {
         m_statusText.text = text ?? string.Empty;
+    }
+
+    private void PlayError()
+    {
+        if (m_sfx != null)
+        {
+            m_sfx.PlayUi(m_errorClip);
+        }
     }
 }
 }

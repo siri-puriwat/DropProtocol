@@ -11,6 +11,22 @@ public sealed class AmmoView : HudView
     [SerializeField]
     private TMP_Text m_weaponName;
 
+    [SerializeField]
+    private UiSfx m_sfx;
+
+    [SerializeField]
+    private AudioClip m_hitClip;
+
+    [SerializeField]
+    private AudioClip m_emptyClip;
+
+    [SerializeField]
+    private AudioClip m_lowAmmoClip;
+
+    [SerializeField]
+    [Min(0)]
+    private int m_lowAmmoThreshold = 5;
+
     private WeaponController m_weapon;
 
     public string Label => m_label != null ? m_label.text : string.Empty;
@@ -25,6 +41,7 @@ public sealed class AmmoView : HudView
 
         m_weapon.Ammo.OnValueChanged += HandleAmmoChanged;
         m_weapon.IsReloading.OnValueChanged += HandleReloadingChanged;
+        m_weapon.DamageConfirmed += HandleDamageConfirmed;
         if (m_weaponName != null)
         {
             m_weaponName.text = m_weapon.Definition != null ? m_weapon.Definition.DisplayName : string.Empty;
@@ -39,6 +56,7 @@ public sealed class AmmoView : HudView
         {
             m_weapon.Ammo.OnValueChanged -= HandleAmmoChanged;
             m_weapon.IsReloading.OnValueChanged -= HandleReloadingChanged;
+            m_weapon.DamageConfirmed -= HandleDamageConfirmed;
         }
 
         m_weapon = null;
@@ -46,7 +64,29 @@ public sealed class AmmoView : HudView
 
     private void HandleAmmoChanged(int previous, int current)
     {
+        if (AmmoRules.MagazineEmptied(previous, current))
+        {
+            PlayUi(m_emptyClip);
+        }
+        else if (AmmoRules.CrossedLow(previous, current, m_lowAmmoThreshold))
+        {
+            PlayUi(m_lowAmmoClip);
+        }
+
         Apply();
+    }
+
+    private void HandleDamageConfirmed()
+    {
+        PlayUi(m_hitClip);
+    }
+
+    private void PlayUi(AudioClip clip)
+    {
+        if (m_sfx != null)
+        {
+            m_sfx.PlayUi(clip);
+        }
     }
 
     private void HandleReloadingChanged(bool previous, bool current)
